@@ -1,0 +1,40 @@
+mongoimport myFile.json -d movieData -c movies --jsonArray --drop
+
+
+------------------------
+
+*****************************************************
+{
+    "profile":{
+        name:'saeid',
+        family:'imani'
+    }
+}
+
+db.myColection.find({"profile.name":'saeid'})
+
+******************************************************
+
+{
+    "names":[
+        'ali','sara','saeid'
+    ]
+}
+
+{
+    "names":[
+        'ali' 
+    ]
+}
+
+db.myColection.find({"names":'ali'})    // return two document
+
+db.myColection.find({"names":['ali']})    // return only second document
+
+
+db.myCollection.find({$or:[{"profile.name":'said'},{'profile.age':27}]})
+----------------------------------------------------------------------------
+
+
+node myFile.js saeid
+

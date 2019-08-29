@@ -1,0 +1,53 @@
+.signup-content{
+    width: 70%;
+    border:1px solid red;
+    margin: 0 0 0 100px;
+
+}
+
+.signup-info{
+    padding: 20px;
+    border-left:1px solid red;
+}
+.signup-info ul {
+    list-style-type: none;
+    text-align: right
+
+ 
+     
+}
+
+.signup-info ul p{
+    text-align: justify;
+}
+.signup-header{
+    background-color:purple;
+    color:white;
+    height: 50px;
+
+}
+.signup-header p{
+    padding-top:10px;
+    font-size:18px;
+    font-weight: bold;
+}
+.signup-lbl p{
+    font-size: 18px;
+    margin: 10px 5px 0 0 ;
+    text-align:right;
+}
+.signup-inputs{
+    width: 400px;
+    
+}
+.signup-aggrement{
+    text-align:right;
+    margin:0 -5px 0 0;
+
+}
+.signup-btn{
+    margin: 0 0 0 200px;
+}
+.signup-btn button{
+    width: 300px;
+}

@@ -1,0 +1,234 @@
+.slider{
+    height:450px;
+}
+.digestInfo{
+    /* border:3px solid yellow; */
+    margin-top:100px;
+    width: 80%;
+    margin-left:20px;
+    height: 200px;
+     
+}
+.digestInfo-element{
+    border:2px solid black;
+    width: 30%;
+    height: 100%;
+    float: right;
+    margin-right:10px;
+
+
+}
+
+.digestInfo-element div{
+    /* border:1px solid purple; */
+    height: 90%;
+    width: 2px;
+    float: right;
+    margin-right:6px;
+    margin-top:10px;
+    border: none;
+    border-right:2px solid black
+}
+.digestInfo-element ul{
+    list-style: none;
+    direction: rtl;
+    text-align: justify;
+     
+     
+
+}
+.digestInfo-element ul li{
+    /* border:1px solid red */
+}
+.complateAddress{
+    font-size: 15px;
+    direction: rtl;
+    text-align: justify;
+    padding: 20px;
+    margin-right:10px;
+     
+}
+
+/*  ========== ads- owner ============= */
+
+.ads-owner{
+height: 110px
+}
+.ads-owner div{
+    height: 100px;
+    width: 80px;
+    float: right;
+    margin-right:16px;
+    margin-top:5px;
+    border: none;
+    border-right:3px solid yellow
+}
+.ads-owner ul{
+    list-style: none;
+    direction: rtl;
+    text-align: justify;
+}
+.owner-icon{
+    float: right;    
+    width: 85px;
+    height: 85px;
+    /* border:1px solid red; */
+    margin:13px 15px 0 0 ;
+    border-radius: 10px;
+}
+.adsOwner-name{
+    font-size:20px;
+    text-align: right
+}
+/* =========== end ads-owner ========== */
+.cityAds{
+   margin:10px 40px 0 0 ;
+     
+    font-size:20px;
+    font-weight: bold;
+
+}
+.cat-icon{
+    float: right;    
+    width: 50px;
+    height: 50px;
+    /* border:1px solid red; */
+    margin:60px 5px 0 0 ;
+    border-radius: 10px;
+}
+/* ====== price ads element ======= */
+.priceAds{
+    list-style-type: none;
+    direction: rtl;
+   
+
+}
+.priceAds li{
+    /* border:1px solid red; */
+
+}
+.priceAds-text{
+    margin: 0 33px 0 0 ;
+    font-size: 20px;
+ }
+.priceAds-price{
+    text-align:left;
+    margin-left:30px;
+    font-size: 22px;
+
+}
+
+
+
+/* ====== end price ads element ======= */
+
+/*  ============= type-house =============  */
+.type-house{
+    list-style-type: none;
+    direction: rtl;
+   
+
+}
+.type-house li{
+    /* border:1px solid red; */
+
+}
+.type-house-text{
+    margin: 0 33px 0 0 ;
+    font-size: 20px;
+ }
+.type-house-value{
+    text-align:left;
+    margin-left:30px;
+    font-size: 22px;
+    /* color:rgba(114, 109, 109, 0.699) */
+
+}
+
+
+
+
+/*  ============= end type-house =============  */
+
+
+
+
+.contentAds{
+    border:1px solid red;
+    margin-top:100px;
+    width: 80%;
+    margin-left:20px;;
+    height:300px;
+}
+ .contentAds p{
+     float: right;
+     direction: rtl;
+     text-align: justify ;
+     line-height: 35px;
+ }
+
+ /* ======== right side ========== */
+
+
+ 
+
+ .rightSide{
+     /* border:3px solid green; */
+     float: right;
+     height: 500px;
+     width: 38%;
+     margin:10px 280px 0 0;
+
+
+
+
+ }
+.house-feature ul {
+    direction: rtl;
+    list-style-type: none;
+    text-align: right;
+    font-size:20px;
+    
+}
+ .house-emkanat ul{
+    direction: rtl;
+    list-style-type: none;
+    text-align: right;
+    font-size:20px;
+ }
+
+
+
+
+/* ============ left side =============== */
+ .leftSide{
+    /* border:3px solid green; */
+    float: left;
+    height: 500px;
+    width: 38%;
+    margin:10px 0 0 20px;
+ }
+ .contact-way{
+    
+ }
+ .contact-way ul{
+    
+     direction: rtl;
+     list-style-type: none;
+     text-align: right;
+     font-size:20px;
+ }
+
+ .send-message{
+    border:1px solid orangered;
+    direction: rtl
+
+}
+ 
+.send-message p{
+    font-size: 23px;
+    /* margin-top:5px; */
+    padding: 15px;
+    direction: rtl;
+    text-align: right
+}

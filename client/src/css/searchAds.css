@@ -1,0 +1,89 @@
+.searchAds{
+    width:83%;
+    /* margin-left:3px; */
+    border:1px solid blue;
+  
+    
+}
+.searchArea ul{
+    /* float: right; */
+    /* border:1px solid red; */
+    text-align: right;
+    direction: rtl;
+    list-style-type: none;
+}
+.searchArea{
+    border:3px solid purple;
+    width:90%;
+    margin:0 0 0 30px ;
+
+   
+
+}
+.searchArea ul span{
+    font-size:23px;
+    margin: 0px -30px 0 0;
+    padding-left: 40px;
+   
+}
+.search-field{
+    width: 400px;
+    margin-right:600px;
+
+}
+ 
+.typeAds , .adCategory{
+    border:1px solid rgba(158, 158, 158,0.5);
+    border-radius:5px
+}
+.typeAds{
+    margin: 10px 30px 0 0
+}
+.adCategory{
+    margin: 0 20px 0 0 
+}
+.search-segment{
+    /* width: 25%; */
+    border:1px solid red;
+    
+}
+.search-segment ul li span{
+    font-size:17px;
+     
+
+
+}
+.min-field{
+    width: 120px;
+}
+.max-field{
+    width: 120px;
+}
+.title-field{
+    font-size:18px;
+    font-weight: bold
+}
+.search-btn{
+   width:100px;
+ 
+    
+}
+.search-btn-holder{
+    margin-left:50px;
+  
+}
+.content-segment{
+    border:2px solid #607D8B;
+    border-radius: 10px;
+}
+.content-segment img{
+    width: 100%;
+    
+    height: 150px;
+    margin-top:-16px;
+}
+.imgLabel{
+    position: absolute;
+    margin: 100px 0 0 10px; ;
+    color:white
+}

@@ -1,0 +1,22 @@
+.signin{
+    width: 82%;
+     
+}
+
+.signin-content{
+   
+    width:60%;
+    margin:30px 0 0 140px 
+    
+}
+.signin-lbl{
+    font-size: 20px;
+    margin:20px 0 0 0
+}
+.signin-fields{
+    width:300px;
+   
+}
+.signin-field-holder{
+    margin:10px 0 0 170px
+}

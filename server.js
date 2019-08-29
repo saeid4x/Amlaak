@@ -12,14 +12,14 @@ app.use(bodyParser.urlencoded({
  // app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("./public"));
- 
+app.use(cors());
 app.use('/api',routes);
-app.use('/api',users);
+app.use('/api/users',users);
 
 //@@
 app.use(express.static(path.join(__dirname, "client", "build")));
-app.use(cors());
-const port = process.env.PORT || 8000;
+
+const port = process.env.PORT || 8002;
 // app.get("*",(req,res)=>{
 //     res.sendFile(path.join(__dirname,"client","build","index.html"))
 //   });
