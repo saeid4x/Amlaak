@@ -14,7 +14,7 @@
         address:{type:String,default:null},
         content:{type:String,default:null},
         images:{type:String,default:null},  //must be array
-        date:{type:Number,default:null},
+        date:{type:String,default:null},
         time:{type:String,default:null},
         contactWay:{
             mobile:{type:String,default:null},

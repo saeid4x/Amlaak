@@ -3,11 +3,8 @@ var express=require('express'),
 var AdsModel=require('../Models/Ads');
 var FavoriteModel=require('../Models/favorites');
 var ProfileModel=require('../Models/profiles');
-var MessageModel=require('../Models/messages')
-
-
- 
-
+var MessageModel=require('../Models/messages');
+var ProvinceModel=require('../Models/province');
 
     router.get('/',(req,res)=>{
         res.send('hello users!');
@@ -15,26 +12,27 @@ var MessageModel=require('../Models/messages')
 
     router.post('/:userID/sendAds',(req,res)=>{
         let formData=req.body ;
+        let user=123
       
         console.log(formData)
         new AdsModel({
             title:formData.title,
              contactWay:{
-                 mobile:formData.contactWay.mobile,
-                 telegram:formData.contactWay.telegram,
-                 whatsapp:formData.contactWay.whatsapp,
-                 email:formData.contactWay.whatsapp
+                 mobile:formData.mobile,
+                 telegram:formData.telegram,
+                 whatsapp:formData.whatsapp,
+                 email:formData.whatsapp
 
              },
              features:{
-                hoomeCity:formData.features.hoomeCity,
-                metrazh:formData.features.metrazh,
-                numTabaghe:formData.features.numTabaghe,
-                nearMetro:formData.features.nearMetro
+                hoomeCity:formData.hoomeCity,
+                metrazh:formData.metrazh,
+                numTabaghe:formData.numTabaghe,
+                nearMetro:formData.nearMetro
              },
             category:formData.category,
             Type:formData.type,
-            userID:formData.userID,        
+            userID:user,        
             bazdid:1,
             province:formData.province,
             city:formData.city,
@@ -48,7 +46,7 @@ var MessageModel=require('../Models/messages')
                 res.json(data)
             }
             else if(err){
-                res.send('err during insert new data')
+                res.send('err during insert new data\n'+err)
 
             }
         })
@@ -162,7 +160,21 @@ var MessageModel=require('../Models/messages')
             {}
         ])
     })
+//  get peovince and city 
+    router.get('/getProvince',(req,res)=>{
 
+        ProvinceModel.find({})
+            .then((data)=>{         
+                   
+                
+            }).catch((err)=>{
+                console.log(err)
+            })
+
+
+
+
+    })
     //test anything
     router.get('/test',(req,res)=>{
       

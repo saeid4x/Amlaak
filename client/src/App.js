@@ -28,34 +28,34 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import AboutMe from './components/AboutMe';
 import AboutSite from './components/AboutSite';
-
+ 
+ 
 //===========  test components ============
 import Test from './components/testCom2/test';
 import MyComponent from './components/testCom2/myComponent'
+import upload2 from './components/PG/upload/upload2';
  
 class App extends Component {
   
   render() {
     return (
        <Router>
-         <Switch>
-          
+         <Switch>          
            <Route path='/user/sendAds' component={SendAds}/>
            <Route path='/user/manageAds' component={manageAds}/>
            <Route exact path='/user/ad/:id' component={DetailAds}/>
            <Route path='/user/ad/:id/edit' component={EditAds}/>
            <Route path='/user/profile/edit' component={editProfilej}/>       
-           <Route path='/user/profile/' component={showProfile}/>
-            
-      <Route path='/test/counter' render={()=><Counter store={store}/>}/>
-      <Route path="/test/menu" component={Menu}/> 
-      <Route path="/test/menu1" component={Menu1}/> 
-      <Route path="/test/list" component={List1}/>
-      <Route path="/test/admin" component={adminLayout}/>
-      <Route   path="/test" component={AboutSite}/>
+           <Route path='/user/profile/' component={showProfile}/>            
+          <Route path='/test/counter' render={()=><Counter store={store}/>}/>
+          <Route path="/test/menu" component={Menu}/> 
+          <Route path="/test/menu1" component={Menu1}/> 
+          <Route path="/test/list" component={List1}/>
+          <Route path="/test/admin" component={adminLayout}/>
+          <Route  exact path="/test" component={upload2}/>
+      
 
-      <Route path="/test1" component={Test} />
-      <Route path="/test2" component={MyComponent} />
+      
 
             
 

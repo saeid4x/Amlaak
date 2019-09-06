@@ -19,7 +19,7 @@ app.use('/api/users',users);
 //@@
 app.use(express.static(path.join(__dirname, "client", "build")));
 
-const port = process.env.PORT || 8002;
+const port = process.env.PORT || 8010;
 // app.get("*",(req,res)=>{
 //     res.sendFile(path.join(__dirname,"client","build","index.html"))
 //   });

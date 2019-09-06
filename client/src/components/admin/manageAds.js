@@ -4,7 +4,7 @@ import Keys from '../../config/keys';
 import {Link} from 'react-router-dom'
 import AdminLayout from '../layouts/adminLayout';
 import { Table ,Paper, TableHead,DialogTitle,Button,TableBody, TableRow,
-        TableCell, Dialog, DialogActions,Slide,Snackbar
+        TableCell, Dialog, DialogActions,Slide,Snackbar,TablePagination
 
             } from '@material-ui/core';
 
@@ -14,7 +14,9 @@ export default class extends Component{
         state={
             AdsData:[],
             openDialog:false,
-            openSnackBar:false
+            openSnackBar:false,
+            tableRefresh:false
+        
         }
 
     //   //for snackbar
@@ -25,7 +27,7 @@ export default class extends Component{
 
     componentDidMount(){
 
-        axios.get(Keys.backendUrl+'/api/users/user1/getAds')
+        axios.get(Keys.backendUrl+'/api/users/123/getAds')
             .then((data)=>{
                 if(data){
                     console.log(data.data);
@@ -38,7 +40,32 @@ export default class extends Component{
         
 
     }
+    
+        // getProvivce(param){
+        //     switch(param){
+        //         case 'tehran':
+        //             return "تهران"
+        //             break;
+        //         case 'nkh-razavi':
+        //             return 'خراسان رضوی'
+        //             break;
+        //         case 'nkh':
+        //             return 'خراسان شمالی'
+        //             break;
+                    
+        //     }
 
+        // }
+
+        // getCity(city){
+        //     switch(city){
+        //         case 'bojnord':
+        //             return 'بجنورد'
+        //             break;
+        //         case 'tehran':
+        //             break
+        //     }
+        // }
     handleDialogOpen=()=>{
         this.setState({
             openDialog:true
@@ -52,15 +79,45 @@ export default class extends Component{
         })
     }
 
+    getTypeAds(type){
+        switch(type){
+            case 'rent':
+                return "اجاره"
+                break
+            case 'sell':
+                return "فروش"
+
+        }
+
+    }
+    getCategoryAds(cat){
+        switch(cat){
+            case 'apartment':
+                return "آپارتمان"
+                break;
+            case 'villa':
+                return "ویلا"
+                break;
+            case 'shop':
+                return "مغازه"
+                break;
+            case 'flat':
+                return 'زمین'
+                break;
+
+        }
+    }
 
     handleDelete=(id)=>{
-         
+          
+
         axios.get(Keys.backendUrl+'/api/users/remove/'+id)
             .then((data)=>{
                 console.log(data.data)
                 if(data.data.remove){
                     this.setState({
-                        AdsData:this.state.AdsData.push({refresh:true})
+                        AdsData:this.state.AdsData.push() 
+                        
                     })
                 }
                     else if(!data.data.remove){
@@ -72,31 +129,47 @@ export default class extends Component{
  
            
     }
+    setShowDialog=(show)=>{
+        this.setState({
+            openDialog:show
+
+        })
+    }
+    handleDialogIgnore=()=>{
+
+    }
+
+    handleDialogAccept=()=>{
+
+    }
     render(){
-        //for dialog
+        //for dialog (delete ads)
     const Transition = React.forwardRef(function Transition(props, ref) {
         return <Slide direction="up" ref={ref} {...props} />;
       });
+
+
 
     
 
         let number=1;
         let data=this.state.AdsData.length>0 ? (
             this.state.AdsData.map((item)=>(
-                <tr>
-                <td>{number++}</td>
-                <td>{item.title}</td>
-                <td>{item.date}</td>
-                <td>{item.Type}</td>
-                <td>{item.category}</td>
-                <td>{item.bazdid}</td>
-                <td>
+                <TableRow>
+                <TableCell>{number++}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.date}</TableCell>
+                <TableCell>{this.getTypeAds(item.Type)}{"  "}{this.getCategoryAds(item.category)}</TableCell>
+                <TableCell>{item.bazdid}</TableCell>
+                 
+                <TableCell>
                     <Link to={`/user/ad/${item._id}`} className="btn btn-primary">مشاهده</Link>
-                    <Link onClick={(id)=>{this.handleDelete(item._id)}} className="btn btn-danger">حذف</Link>
+                   <Link onClick={(id)=>{this.handleDelete(item._id)}} className="btn btn-danger">حذف</Link>
+                   {/* <Link className="btn btn-danger">حذف</Link> */}
                     <Link to={`/user/ad/${item._id}/edit`} className="btn btn-warning">ویرایش</Link>
 
-                </td>
-            </tr>
+                </TableCell>
+            </TableRow>
             ))
            
         ):null
@@ -112,7 +185,8 @@ export default class extends Component{
 
                 </Paper>
             <Paper style={{width:900,width:'83%',marginLeft:10}}>
-            <Table style={{border:'1px solid red',width:'100%',direction:'rtl'}}>
+            
+            <Table style={{border:'1px solid red',width:'100%',direction:'rtl'}} >
             <TableHead>
                 <TableRow>
                     <TableCell>#</TableCell>
@@ -125,7 +199,8 @@ export default class extends Component{
                 </TableRow>
             </TableHead>
             <TableBody>
-                <TableRow>
+                {data}
+                {/* <TableRow>
                     <TableCell>  1  </TableCell>
                     <TableCell>  عنوان آگهی یک  </TableCell>
                     <TableCell>    1398-5-30</TableCell>
@@ -137,10 +212,11 @@ export default class extends Component{
                         <Button color="default"  variant="outlined">ویرایش</Button>
                      </TableCell>
                      
-                </TableRow>
+                </TableRow> */}
 
             </TableBody>
             </Table>
+             
             </Paper>
 
             <Dialog
@@ -154,8 +230,8 @@ export default class extends Component{
 
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={this.handleDialogClose} variant="outlined" color="secondary" >خیر</Button>
-                    <Button onClick={this.handleDialogClose} variant="outlined" color="primary" >بله</Button>
+                    <Button onClick={this.handleDialogIgnore} variant="outlined" color="secondary" >خیر</Button>
+                    <Button onClick={this.handleDialogAccept} variant="outlined" color="primary" >بله</Button>
                 </DialogActions>
 
             </Dialog>

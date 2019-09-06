@@ -178,7 +178,7 @@ export default function Header(){
         <Divider />
         <List>
 
-        <Link to="/admin/sendAds">
+        <Link to="/user/sendAds">
         <ListItem button style={{borderBottom:'1px solid cyan'}}>          
           <ListItemText primary="ارسال آگهی " className={classes.listItemText}/>     
           
@@ -186,7 +186,7 @@ export default function Header(){
         </ListItem>
         </Link>
 
-        <Link to="/admin/manageAds">
+        <Link to="/user/manageAds">
         <ListItem button style={{borderBottom:'1px solid cyan'}}>          
           <ListItemText primary="مدیریت آگهی " className={classes.listItemText}/>     
           
@@ -194,7 +194,7 @@ export default function Header(){
         </ListItem>
         </Link>
 
-        <Link to="/admin/messages">
+        <Link to="/user/messages">
         <ListItem button style={{borderBottom:'1px solid cyan'}}>          
           <ListItemText primary="پیام ها" className={classes.listItemText}/>     
           
@@ -202,7 +202,7 @@ export default function Header(){
         </ListItem>
         </Link>
 
-        <Link to="/admin/reports">
+        <Link to="/user/reports">
         <ListItem button style={{borderBottom:'1px solid cyan'}}>          
           <ListItemText primary="گزارش ها" className={classes.listItemText}/>     
           
@@ -210,7 +210,7 @@ export default function Header(){
         </ListItem>
         </Link>
 
-        <Link to="/admin/favorites">
+        <Link to="/user/favorites">
         <ListItem button style={{borderBottom:'1px solid cyan'}}>          
           <ListItemText className={classes.listItemText}>علاقه مندی </ListItemText>    
           

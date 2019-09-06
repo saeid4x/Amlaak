@@ -1,0 +1,130 @@
+.sendAds{
+    border:1px solid red;
+    width: 81%;
+    margin:80px 0 0 20px;
+
+}
+.pageTitle{
+    width: 98%;
+    border:3px solid yellow;
+}
+.gridLayout{
+    margin-top:30px;
+}
+.titleAds{
+    text-align:right
+}
+.titleAds-title{
+    /* border:1px solid red; */
+    margin: 10px 50px 0 0 ;
+    position: absolute;
+    right:210px;
+    font-size: 18px;
+
+
+}
+.titleAds-field{
+    margin:0 400px 0 0 ;
+    position: absolute;
+    right:100px;
+    width: 80%
+}
+.adsType{
+
+    text-align: right
+}
+.adsType-title{
+    position: absolute;
+    right:260px;
+    top:270px;
+    font-size: 18px;
+}
+.adsType-field{
+    /* border:2px solid red; */
+    margin:10px 100px 0 0 
+}
+.typeAds-content{
+    border:1px solid red;
+    width: 90%;
+    text-align: right;
+    margin: 30px 0 0 25px;
+    height:100%
+}
+.adsContent-title{
+    text-align: right;
+    margin:40px 10px 0  0;
+   
+    float: right;
+
+
+}
+.adsContent-content{
+     float: right;
+     width: 85%;
+     direction: rtl;
+     position: absolute;
+     right:50px;
+   
+}
+
+/* ====== city && province fields ========= */
+.province-title{
+    
+    position: absolute;
+    right:260px;
+    font-size: 18px;
+
+    
+}
+.province-field{
+    /* border:1px solid red; */
+   position: absolute;
+   right:-100px;
+   top:5px;
+   width: 150px;
+   direction: rtl;
+}
+.city-title{
+    /* border:1px solid red; */
+    font-size: 18px;
+    position: absolute;
+    right:500px;
+     margin-top:5px;     
+}
+.city-field{
+    position: absolute;
+    right:-130px;
+    width: 150px;
+    margin-top:5px;
+    direction: rtl;
+     
+}
+
+
+/* ====== address field ===== */
+.address-title{      
+     position: absolute;
+     right:262px;
+     top:597px;
+     font-size: 18px;
+
+
+}
+.address-field{
+  
+    position: absolute;
+    top:30px;
+    right:-50px;
+    width: 500px;    
+    
+}
+.featureHouse-lbl{  
+   float: right;
+    
+    margin-right:12px;
+}
+.featureHouse-field{
+    width: 80px;
+    margin-left:80px;
+}
+ 

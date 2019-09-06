@@ -40,8 +40,8 @@ export default class extends Component{
          let adsID=this.props.match.params.id;
         axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID)
             .then((data)=>{
-                if(data){
-                    console.log(data.data);
+                if(data.data){
+                     
                     this.setState({
                         adsData:data.data
                     })
@@ -50,6 +50,7 @@ export default class extends Component{
                 axios.get(Keys.backendUrl+'/api/users/getFavoriteStatus/'+this.state.adsData.userID+'/'+this.state.adsData._id)
                     .then((data)=>{
                         if(data.data){
+
                             this.setState({
                                 favoriteStatus:true
                             })
@@ -57,12 +58,19 @@ export default class extends Component{
                             
                         }
                     })
+            }).then(()=>{
+                console.log('@3000',this.state.adsData)
             })
     }
 
     render(){
-        // console.log(this.state.favoriteStatus);
-       
+         
+         let adsData=this.state.adsData ? this.state.adsData:'';
+          let FeaturesAds=adsData.features ? adsData.features : '';
+          let ContactWay=adsData.contactWay ? adsData.contactWay:'';
+          
+          
+        
         return(
             <section className='detailAd'>
                 <AdminLayout></AdminLayout>
@@ -116,16 +124,12 @@ export default class extends Component{
                         <div> </div>  
                         <ul>
                             <li>
-                                <p className="cityAds">خراسان رضوی - مشهد</p>
+                                <p className="cityAds"> {adsData.province} - {adsData.city} </p>
                             </li>
                             <li>
                                 <p className="complateAddress">
 
-                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-                 چاپگرها و متون بل
-                 که روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود
-                  ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان ر
-                                    
+                                                  
                                 </p>
                             </li>
 
@@ -170,13 +174,13 @@ export default class extends Component{
                             <p className="type-house-text">دسته بندی </p>
                         </li>
                         <li >
-                            <p className="type-house-value">آپارتمان</p>
+                            <p className="type-house-value">{adsData.category}</p>
                         </li>
                         <li>
                             <p className="type-house-text">متراژ</p>
                         </li>
                         <li >
-                           <p className="type-house-value">800 متر</p> 
+                           <p className="type-house-value"> {FeaturesAds.metrazh}</p> 
                         </li>
                     </ul>
 
@@ -191,13 +195,7 @@ export default class extends Component{
             <section className="contentAds">
                 <Paper style={{padding:25,height:'100%',fontSize:20}}>
                 <p> 
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-                 چاپگرها و متون بل
-                 که روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود
-                  ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد 
-                 تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. 
-                 در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز
-                  شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                {adsData.content}
                 </p>
 
                 </Paper>
@@ -213,23 +211,23 @@ export default class extends Component{
                             <h2>مشخصات ملک</h2>
                             <Divider/>
                             <ul>
-                                <li> حومه شهر : بله</li>
+                                <li> حومه شهر : {FeaturesAds.hoomeCity? 'هست' :'نیست'} </li>
                                 <li>  
                                     <Divider/>
                                  </li>
 
-                                <li>  متراژ: 500متر </li>
+                                <li>  متراژ:   {FeaturesAds.metrazh} </li>
 
                                 <li> 
                                 <Divider/>                                    
                                  </li>
 
 
-                                <li>   نزدیک مترو: بله</li>
+                                <li>   نزدیک مترو: {FeaturesAds.nearMetro ? 'هست':'نیست'}</li>
                                 <li>  
                                     <Divider/>
                                  </li>
-                                <li>  تعداد طبقات: 10 </li>
+                                <li>  تعداد طبقات:  {FeaturesAds.numTanaghe} </li>
                                 <li>  
                                     <Divider/>
                                  </li>
@@ -251,7 +249,7 @@ export default class extends Component{
                             <h2>امکانات ملک</h2>
                             <Divider/>
                             <ul>
-                                <li> حومه شهر : بله</li>
+                                <li> حومه شهر : {FeaturesAds.hoomeCity ? 'هست':'نیست'}</li>
                                                              
                             </ul>
                         </div>
@@ -291,12 +289,12 @@ export default class extends Component{
                             <h2>راه هاای ارتباطی</h2>
                             <Divider/>
                             <ul>
-                                <li>موبایل : 09905086089</li>
+                                <li>موبایل : {ContactWay.mobile}</li>
                                 <li>  
                                     <Divider/>
                                  </li>
 
-                                <li>   ایمیل : saeid.almahdi@gmail.com</li>
+                                <li>   ایمیل : {ContactWay.email}</li>
 
                                 <li> 
                                 <Divider/>                                    
@@ -304,13 +302,13 @@ export default class extends Component{
 
 
                                 <li>   
-                                تلگرام: @saeid4x
+                                تلگرام: {ContactWay.telegram}
                                 </li>
                                 <li>  
                                     <Divider/>
                                  </li>
                                 <li>   
-                                    واتساپ : 09905086089                                   
+                                    واتساپ :  {ContactWay.whatsapp}                                   
                                      </li>
                             </ul>
                         </div>
