@@ -1,84 +1,220 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import axios from 'axios';
 import Keys from '../../config/keys';
-import { Paper, Grid, Divider ,TextField,Select,Fab} from '@material-ui/core';
+import { Paper, Grid, Divider ,TextField,Select,Fab,Switch,Button} from '@material-ui/core';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import AdminLayout from  '../layouts/adminLayout'
-export default class extends Component{
+import AdminLayout from  '../layouts/adminLayout';
+import "../../css/sendAds.css";
 
-    state={
-        title:null
+class SendAds extends Component{
+
+    state={      
+        title:null,
+        category:null,
+        type:null,
+        province:null,
+        city:null,
+        address:null,
+        content:null,
+        images:'image1.jpg',
+        date:'1398/10/5',
+        time:'13:25',         
+        mobile:null,
+        telegram:null,
+        whatsapp:null,
+        email:null,
+        emkanat:[],
+        hoomeCity:false,
+        metrazh:null,
+        numTanaghe:null,
+        nearMetro:false,
+        rentPrice:null,
+        depositPrice:null,
+        sellPrice:null,
+        sell_field_selected:'none',
+        rent_field_selected:'none'
     }
-
-
-   
     componentDidMount(){
         let adsID=this.props.match.params.id;
-            axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID)
-            .then((data)=>{
-                if(data){
-                    // let data=this.state.adsData[data]=data.data;
-                    this.setState({
-                       title:data.data.title
-                    })
-    
-                }
-            }) 
-    }
-    handleSubmit=(e)=>{
-        e.preventDefault();
-        let formData={
-            title:this.adsTitle.value,
-            category:this.adsCategory.value,
-            type:this.adsType.value,
-            userID:'user1',
-             province:this.adsProvince.value,
-             city:this.adsCity.value,
-             address:this.adsAddress.value,
-             content:this.adsContent.value,
-             images:'image1.jpg',
-             date:1398,
-             time:'13:25',
-             contactWay:{
-                 mobile:this.adsMobile.value,
-                 telegram:this.adsTelegram.value,
-                 whatsapp:this.adsWhatsapp.value,
-                 email:this.adsEmail.value
-             },
-             emkanat:this.adsEmkanat.value,
-             features:{
-                 hoomeCity:true,
-                 metrazh:320,
-                 numTabaghe:0,
-                 nearMetro:true
-             },
-             deposit:this.adsDeposit.value,
-             rent:this.adsRent.value,
-             sale:this.adsSale.value
 
-
-        };
-        let adsID=this.props.match.params.id;
-        axios.post(Keys.backendUrl+'/api/users/modify/'+adsID,formData)
+         axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID)
             .then((data)=>{
                 if(data.data){
-                    console.log('edited',data.data)
-                    
+                    this.setState({
+                        title:data.data.title,
+                        category:data.data.category,
+                        type:data.data.Type,
+                        province:data.data.province,
+                        city:data.data.city,
+                        address:data.data.address,
+                        content:data.data.content,
+                        images:'image1.jpg',
+                        date:'1398/10/5',
+                        time:'13:25',         
+                        mobile:data.data.contactWay.mobile,
+                        telegram:data.data.contactWay.telegram,
+                        whatsapp:data.data.contactWay.whatsapp,
+                        email:data.data.contactWay.email,
+                       
+                        hoomeCity:data.data.features.hoomeCity,
+                        metrazh:data.data.features.metrazh,
+                        numTanaghe:data.data.features.numTanaghe,
+                        nearMetro:data.data.features.nearMetro,
+                        rentPrice:data.data.rent,
+                        depositPrice:data.data.deposit,
+                        sellPrice:data.data.sale,
+                        sell_field_selected:'none',
+                        rent_field_selected:'none'
+
+                    })
+                    console.log('contact=',data.data.contactWay)
                 }
             })
 
+       
+
+        
     }
 
+    handleChanges=(name)=>event=>{
+        this.setState({
+            [name]:event.target.value
+            
+        })  
+
+        if(event.target.value == 'rent')      {
+            this.setState({
+                 rent_field_selected:'block',
+                 sell_field_selected:'none'
+
+            })
+        }
+
+        if(event.target.value == 'sell')      {
+            this.setState({
+                 sell_field_selected:'block',
+                 rent_field_selected:'none',
+            })
+        }
+       
+
+        console.log('name=',event.target.value)
+    }
+    handleSwitchChanges=(name)=>event=>{
+        this.setState({
+            [name]:event.target.checked
+        })
+    }
+
+    // [emkanatMelk,]
+    state={
+      
+        title:null,
+        category:null,
+        type:null,
+        province:null,
+        city:null,
+        address:null,
+        content:null,
+        images:'image1.jpg',
+        date:'1398/10/5',
+        time:'13:25',         
+        mobile:null,
+        telegram:null,
+        whatsapp:null,
+        email:null,
+        emkanat:[],
+        hoomeCity:false,
+        metrazh:null,
+        numTanaghe:null,
+        nearMetro:false,
+        rentPrice:null,
+        depositPrice:null,
+        sellPrice:null,
+        sell_field_selected:'none',
+        rent_field_selected:'none'
+    }
+     
+    
+    handleSubmit=(e)=>{
+        e.preventDefault();
+        // let formData={
+        //     title:this.state.title,
+        //     category:this.adsCategory.value,
+        //     type:this.adsType.value,
+        //     userID:'user1',
+        //      province:this.adsProvince.value,
+        //      city:this.adsCity.value,
+        //      address:this.adsAddress.value,
+        //      content:this.adsContent.value,
+        //      images:'image1.jpg',
+        //      date:1398,
+        //      time:'13:25',
+        //      contactWay:{
+        //          mobile:this.adsMobile.value,
+        //          telegram:this.adsTelegram.value,
+        //          whatsapp:this.adsWhatsapp.value,
+        //          email:this.adsEmail.value
+        //      },
+        //      emkanat:this.adsEmkanat.value,
+        //      features:{
+        //          hoomeCity:true,
+        //          metrazh:320,
+        //          numTabaghe:0,
+        //          nearMetro:true
+        //      },
+        //     //  deposit:this.adsDeposit.value,
+        //     //  rent:this.adsRent.value,
+        //     //  sale:this.adsSale.value
+
+
+        // };
+
+     console.log(this.state)
+
+       axios.post(Keys.backendUrl+'/api/users/modify/'+this.props.match.params.id,this.state)
+        .then((data)=>{
+            if(data.data){
+                // console.log(data.data)   
+                this.props.history.push("/user/manageAds");
+            }
+        })
+
+        
+
+
+        
+
+    }
+    
+    componentWillMount(){
+        //--- check if user neither do login or not
+        let userID=localStorage.getItem('userID');
+        let token=localStorage.getItem('token');
+        if(!userID || !token){
+            this.props.history.push('/signin')
+        }
+        //--- 
+
+  }
     render(){
         return(
-            <section className="EditAds">
 
-
+            <section className="sendAds">
 <AdminLayout></AdminLayout>
-
-                <h2>ویرایش آگهی </h2>
-               <Divider/>
-                    <Grid container  sm={12} lg={12} spacing={2} >   {/* main --> Grid.conatiner  */}   
+                <div className="pageTitle">
+                    <Paper>
+                        <center>
+                        <h2>ویرایش آگهی </h2>
+                        </center>                   
+                    </Paper>
+                </div>
+               
+               {/* <Divider/> */}
+               <form onSubmit={this.handleSubmit}>
+               <div className="gridLayout">
+               
+                                   <Grid container  sm={12} lg={12} spacing={2} className="g">   {/* main --> Grid.conatiner  */}   
 
                         
                         <Grid  container sm={5} >  {/* leftSide |   --> Grid.conatiner  */}
@@ -87,9 +223,20 @@ export default class extends Component{
                             <Grid container sm={12} >{/* leftSide 1| [house-feature]  --> Grid.conatiner  */}                                             
                                 
                                 <Grid container sm={12}> {/* leftSide 1|2 [house-feature]  --> Grid.conatiner  */}
+                                <Grid item sm={12}>
+                                    <div>
+                                        <center>
+                                        <h5>ویژگی های ملک</h5>
+                                        </center>
+                                        <Divider/>
+                                    </div>
+                                </Grid>
                                     <Grid item sm={10}>
                                         <div>
-                                            جا باری سوئیچ
+                                        <Switch                                            
+                                            onChange={this.handleSwitchChanges('hoomeCity')}
+                                           checked={this.state.hoomeCity}
+                                        />
                                         </div>
                                     </Grid>
 
@@ -99,26 +246,22 @@ export default class extends Component{
                                 </Grid>
 
                                 <Grid container sm={12}> {/* leftSide 1|2 [house-feature]  --> Grid.conatiner  */}
-                                    <Grid item sm={10}>
-                                        <div>
-                                            جا باری سوئیچ
-                                        </div>
-                                    </Grid>
-
-                                    <Grid item sm={2} > 
-                                        <span>حومه  شهر</span>
-                                    </Grid> 
+                                
                                 </Grid>
 
                                 <Grid container sm={12}> {/* leftSide 1|2 [house-feature]  --> Grid.conatiner  */}
-                                    <Grid item sm={10}>
+                                    <Grid item sm={9}>
                                         <div>
-                                            جا باری سوئیچ
+                                        <Switch                                           
+                                            onChange={this.handleSwitchChanges('nearMetro')}
+                                            checked={this.state.nearMetro}                                           
+                                            
+                                        />
                                         </div>
                                     </Grid>
 
-                                    <Grid item sm={2} > 
-                                        <span>حومه  شهر</span>
+                                    <Grid item sm={3} > 
+                                        <span className="featureHouse-lbl"> نزدیک مترو</span>
                                     </Grid> 
                                 </Grid>
 
@@ -126,25 +269,43 @@ export default class extends Component{
                                 <Grid container sm={12}> {/* leftSide 1|2 [house-feature]  --> Grid.conatiner  */}
                                     <Grid item sm={10}>
                                         <div>
-                                            جا باری سوئیچ
+                                        <TextField
+                                             margin="dense"
+                                             variant="outlined"   
+                                             className="featureHouse-field" 
+                                             placeholder="متراژ"     
+                                             onChange={this.handleChanges('metrazh')}  
+                                             value={this.state.metrazh}                                
+                                        />
                                         </div>
                                     </Grid>
 
                                     <Grid item sm={2} > 
-                                        <span>حومه  شهر</span>
-                                    </Grid> 
+                                        <span className="featureHouse-lbl">   متراژ</span>                                       
+                                    </Grid>                                   
+                                    
                                 </Grid>
+                            
 
                                 <Grid container sm={12}> {/* leftSide 1|2 [house-feature]  --> Grid.conatiner  */}
-                                    <Grid item sm={10}>
+                                    <Grid item sm={9}>
                                         <div>
-                                            جا باری سوئیچ
+                                        <TextField                                           
+                                            margin="dense"
+                                            variant="outlined" 
+                                            className="featureHouse-field"  
+                                            placeholder="تعداد طبقه"
+                                            onChange={this.handleChanges('numTanaghe')}
+                                            value={this.state.numTanaghe}
+                                                                                       
+                                        />
                                         </div>
                                     </Grid>
 
-                                    <Grid item sm={2} > 
-                                        <span>حومه  شهر</span>
+                                    <Grid item sm={3} > 
+                                        <span className="featureHouse-lbl">تعداد طبقه</span>
                                     </Grid> 
+                                    
                                 </Grid>
                                    
                             </Grid> {/* leftSide 1| [house-feature]  --> end Grid.conatiner  */}
@@ -154,26 +315,34 @@ export default class extends Component{
                         <Grid container sm={12}> {/* leftSide 2| [house-emkanat]  -->  Grid.conatiner  */}
 
                            <Grid item sm={12}>
-                               <span>امکانات ملک</span>
+                               <div>
+                                   <center>
+                                       <h5>امکانات ملک</h5>
+                                   </center>
+                                   <Divider/>
+                               </div>
+                               
                            </Grid>
 
                            <Grid item sm={12}>
-                               <Grid container sm={12}> 
-                                   <Grid item>
-                                       <span> امکانات</span>                                       
-                                   </Grid>
+                               <Grid container sm={12} direction=" "> 
 
-                                   <Grid item>
-                                   <TextField
-                                        margin="normal"
-                                        variant="outlined"
-                                    />                                    
-                                   </Grid>
-
-                                   <Grid item>
-                                       <span>plus +</span>
-                                   </Grid>
-
+                               <Grid item sm={12}>
+                                  <Button color="default" variant="outlined" className="emkanatHouse-plusIcon">plus +</Button> 
+                                  <TextField
+                                       margin="dense"
+                                       variant="outlined"
+                                       className="emkanatHouse-field"
+                                   />  
+                                    <span className="emkanatHouse-lbl"> امکانات</span> 
+                               </Grid>
+                                 
+                                 <Grid item>
+                                     <ul>
+                                         <li> item 1</li>
+                                     </ul>
+                                 </Grid>
+                                        
                                </Grid> {/* end container*/}
                               
                            </Grid>
@@ -209,6 +378,8 @@ export default class extends Component{
                                         <TextField
                                             margin="normal"
                                             variant="outlined"
+                                            onChange={this.handleChanges('mobile')}
+                                            value={this.state.mobile}
                                             />
 
                                     </Grid>
@@ -231,6 +402,8 @@ export default class extends Component{
                                         <TextField
                                             margin="normal"
                                             variant="outlined"
+                                            onChange={this.handleChanges('email')}
+                                            value={this.state.email}
                                             />
 
                                     </Grid>
@@ -254,6 +427,8 @@ export default class extends Component{
                                         <TextField
                                             margin="normal"
                                             variant="outlined"
+                                            onChange={this.handleChanges('telegram')}
+                                            value={this.state.telegram}
                                             />
 
                                     </Grid>
@@ -277,6 +452,8 @@ export default class extends Component{
                                         <TextField
                                             margin="normal"
                                             variant="outlined"
+                                            onChange={this.handleChanges('whatsapp')}
+                                            value={this.state.whatsapp}
                                             />
 
                                     </Grid>
@@ -290,19 +467,21 @@ export default class extends Component{
 
 
                             
-                        </Grid>   {/* leftSide |   --> end Grid.conatiner  */}
+                        </Grid>    {/*eftSide |   --> end Grid.conatiner  */}
                                 
                         
                         
 
                    
-                  <Grid item sm={7} lg={7} md={7}> 
+                  <Grid item sm={7} lg={7} md={7}>  {/*RgihtSide |   --> end Grid.conatiner  */}
 
                         <Paper >
                             <Grid container sm={12}> 
 
                                 <Grid item sm={12} >
-                                    <h1>مشخصات پایه ای </h1>
+                                    <center>
+                                    <h4>مشخصات پایه ای </h4>
+                                    </center>
 
                                 </Grid>
 
@@ -311,62 +490,110 @@ export default class extends Component{
                                 </Grid>
 
                                 <Grid item sm={12}>                                   
-                                 
+                                 <div className="titleAds">
                                   <TextField
                                     id="standard-name" 
-                                    margin="normal"
+                                    margin="dense"
                                     variant="outlined"
+                                    className="titleAds-field"
+                                    onChange={this.handleChanges('title')}
+                                   value={this.state.title}
+                                    
                                      />
 
-                                    <span>عنوان آگهی </span>
-                                </Grid>                          
+                                    <span className="titleAds-title">عنوان آگهی </span>
+                                    </div>
+                                </Grid>   
+
 
                                 <Grid item sm={12}>
-                                 
-                                    <Select
-                                        native 
-                                          autoWidth='true'
-                                          style={{width:500}}
-                                        inputProps={{
-                                            name: 'age',
-                                            id: 'age-native-simple',
-                                        }}
-                                        >
+                               
+                               <div className="adsCategory">
+                                <Select  native 
+                                      autoWidth='true'
+                                      style={{width:500}}                                       
+                                      className="adsType-field"
+                                      onChange={this.handleChanges('category')}
+                                      value={this.state.category}
+                                  >
+                                      <option value="" />
+                                      <option value='villa'> ویلایی</option>
+                                      <option value='apartment'>آپارتمان</option>                                       
+                                      <option value='shop'>مغازه</option>                                       
+                                      <option value='flat'>زمین</option>                                       
+                                  </Select>  
+
+                                       <span className="adsType-title">دسته بندی آگهی </span>
+                                       </div>
+
+                              </Grid>
+
+                                <Grid item sm={12}>
+                               
+                                 <div className="adsType">
+                                  <Select  native 
+                                        autoWidth='true'
+                                        style={{width:500}}                                       
+                                        className="adsType-field"
+                                        onChange={this.handleChanges('type')}
+                                        value={this.state.type}
+                                        
+                                    >
                                         <option value="" />
-                                        <option value={10}>Ten dk;kf dkflk</option>
-                                        <option value={20}>Twenty</option>
-                                        <option value={30}>Thirty</option>
-                                        </Select>  
-                                         <span>نوع آگهی </span>
+                                        <option value='rent'>رهن و اجاره</option>
+                                        <option value='sell'>فروش</option>                                       
+                                    </Select>  
+
+                                         <span className="adsType-title">نوع آگهی </span>
+                                         </div>
 
                                 </Grid>
 
                                 <Grid item sm={12}>
-                                    <span>  محتوای نوع آگهی  </span>
+                                    <div className="typeAds-content"> 
+                                       <section className="sell" style={{display:`${this.state.sell_field_selected}`}}>
+                                           <input type="text" placeholder="sell-price" onChange={this.handleChanges('sellPrice')}/>                                           
+                                        </section> 
+
+                                       <section className="rent" style={{display:`${this.state.rent_field_selected}`}}>
+                                           <input type="text" placeholder="رهن" onChange={this.handleChanges('depositPrice')}/>                                           
+                                           <input type="text" placeholder="اجاره" onChange={this.handleChanges('rentPrice')}/>                                           
+                                        </section>                                     
+
+
+                                     
+                                     </div>
                                 </Grid>
 
                                 <Grid item sm={12}>
-                                    <span>متن آگهی</span>
+                                    <span className="adsContent-title">متن آگهی</span>
                                 </Grid>
 
                                 <Grid item sm={12}>
+
                                 <TextField
                                     id="standard-name" 
                                     margin="normal"
                                     variant="outlined"
                                     multiline
+                                    className="adsContent-content"
+                                    onChange={this.handleChanges('content')}
+                                    value={this.state.content}
                                      />
                                 </Grid>
                             </Grid>{/* 1-> end Grid.container  */}
                             </Paper>
  
 
-                            <Paper style={{marginTop:10}}>
+                            <Paper style={{marginTop:10,height:250}}>
                             <Grid container sm={12}> {/* 2->  Grid.container  */}
                            
 
                                 <Grid item sm={12}>
-                                   <h3>محل آگهی</h3>
+                                    <center>
+                                   <h4>محل آگهی</h4>
+                                   <Divider/>
+                                   </center>
                                 </Grid>
 
                                 <Grid item sm={12}>
@@ -374,49 +601,47 @@ export default class extends Component{
 
                                    <Grid item sm={5}>
                                           <Select
-                                            native
-                                            inputProps={{
-                                                name: 'age',
-                                                id: 'age-native-simple',
-                                            }}
-                                            style={{width:280}}
+                                            native                                         
+                                            className="city-field"
+                                            onChange={this.handleChanges('city')}  
+                                            value={this.state.city}
+                                        
                                             >
                                             <option value="" />
-                                            <option value={10}>مشهد</option>
-                                            <option value={20}> بجنورد   </option>
-                                            <option value={30}>شیراز</option>
+                                            <option value="mashhad">مشهد</option>
+                                            <option value="bojnourd"> بجنورد   </option>
+                                            <option value="shiraz">شیراز</option>
                                            </Select>
                                        </Grid>
 
                                        <Grid item  sm={1}> 
-                                           <span> شهرستان</span>
+                                           <span className="city-title"> شهرستان</span>
                                        </Grid>
                                       
-                                       <Grid item  sm={5}>
+                                       <Grid item  sm={4}>
                                          <Select
                                             native
-                                            inputProps={{
-                                                name: 'age',
-                                                id: 'age-native-simple',
-                                            }}
-                                            style={{width:280}}
+                                            className="province-field"  
+                                            onChange={this.handleChanges('province')}   
+                                            value={this.state.province}                             
+                                           
                                             >
                                             <option value="" />
-                                            <option value={10}>خراسان شمالی</option>
-                                            <option value={20}>خراسان رضوی </option>
-                                            <option value={30}>تهران</option>
+                                            <option value='nkh'>خراسان شمالی</option>
+                                            <option value='kh-razavi'>خراسان رضوی </option>
+                                            <option value='tehran'>تهران</option>
                                             </Select>
                                        </Grid>
 
-                                       <Grid item  sm={1}>
-                                           <span> استان</span>
+                                       <Grid item>
+                                           <span className="province-title"> استان</span>
                                        </Grid>  
 
                                    </Grid>{/* 2|1 ->  end Grid.container  */}
                                 </Grid> 
 
                                 <Grid item={12}>
-                                       <span>آدرس کامل</span>
+                                       <span className="address-title">آدرس کامل</span>
                                    </Grid>
                                    <Grid item={12}>
                                     <TextField
@@ -424,7 +649,9 @@ export default class extends Component{
                                         margin="normal"
                                         variant="outlined"
                                         multiline
-                                        style={{width:500}}
+                                        className="address-field"
+                                        onChange={this.handleChanges('address')} 
+                                        value={this.state.address}                                       
                                         />
                                    </Grid>
                               
@@ -450,109 +677,16 @@ export default class extends Component{
                     </Grid>
                     </Grid> {/*  main grid  */}
 
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        aria-label="add"
-                         
-                    >
-                       <h5>ویرایش آگهی</h5>  
-                      <NavigationIcon />
-                             
-                </Fab>
+                    </div>  
+                    
                    
+                    <input type="submit" value="send" />
+                </form>
+             
 
-
-
-
-
-
-
-
-
-
-
-
-               {/* <form onSubmit={this.handleSubmit}>
-        <h1>ارسال آگهی </h1>
-        <hr/>
-        <h4>مشخصات پایه ای</h4>
-        <div className="form-group">
-       <span> عنوان:</span>
-         <input className="form-control" type="text" defaultValue={this.state.title}  name="adsTitle" id="adsTitle" ref={(input)=>{this.adsTitle=input}}/> <br/>
-        </div>
-        نوع آگهی :
-        <select ref={(val)=>this.adsType=val} >
-            <option value='rent'> رهن و اجاره </option> 
-            <option value='sale'> فروش </option> 
-        </select>
-        <br/> <br/>
-        دسته بندی آگهی:
-        <select ref={(val)=>this.adsCategory=val} >
-            <option value='apartement'>آپارتمان</option>
-            <option value='home'>خانه ویلایی</option>
-            <option value='zamin'>ژمین</option>
-            <option value='shop'>فروشگاه</option>
-        </select>   
-        <br/> <br/>
-        رهن:<input type="text"  ref={(val)=>this.adsDeposit=val} /> <br/>
-        اجاره: <input type='text' ref={(val)=>this.adsRent=val}  /> <br/>
-        فروش :<input type='text' ref={(val)=>this.adsSale=val}  /> <br/>
-        <br/> <br/>
-        متن آگهی :
-        <textarea rows='10' cols='50' name='adsContent' ref={(val)=>this.adsContent=val}></textarea>
-        <hr/>
-        <h4>محل آگهی</h4>
-        استان:
-        <select name="province" id="" ref={(val)=>this.adsProvince=val}>
-            <option value='-1'>انتخاب کنید</option>
-            <option value="tehran">تهران</option>
-        </select>
-        <br/> <br/>
-        شهر:
-        <select name="city" id="" ref={(val)=>this.adsCity=val} >
-        <option value='-1'>انتخاب کنید</option>
-            <option value="city">city</option>
-        </select>
-<br/>    <br/>
-        آدرس:
-        <textarea name="address" id="" cols="30" rows="10" ref={(val)=>this.adsAddress=val}></textarea>
-        <br/>
-        <hr/>
-        <h4>تصاویر آگهی</h4>
-        عکس:  <input type="file" ref={(val)=>this.adsImages=val}/>
-        <br/>
-        <hr/>
-        <h4>  ویژگی های ملک</h4>
-        <div>
-            <span> حومه شهر:هست  </span> <br/> <br/>
-            <span>  متراژ:10000  </span> <br/> <br/>
-            <span>   نزدیک مترو:هست </span> <br/> <br/>
-            <span>  تعداد طبقه:3  </span> <br/> <br/>
-        </div>
-    <hr/>
-    <h4>امکانات های ملک</h4>
-    امکانات:  <input type="text" ref={(val)=>this.adsEmkanat=val}/>
-    <ul>
-        <li>  فلان چیز</li>
-    </ul> 
-    <br/>
-    <hr/>
-
-    <h4> راه های ارتباطی </h4>
-    همراه: <input type="text" ref={(val)=>this.adsMobile=val}/>
-    <br/>
-    ایمیل: <input type="text" ref={(val)=>this.adsEmail=val}/>
-    <br/>
-    تلگرام: <input type="text" ref={(val)=>this.adsTelegram=val}/>
-    <br/>
-    whatsapp: <input type="text" ref={(val)=>this.adsWhatsapp=val}/>
-    <br/>
-
-        <button type='submit' className='btn btn-primary'>  ارسال  </button>
-        </form> */}
             </section>
+
         )
     }
 }
+export default SendAds;

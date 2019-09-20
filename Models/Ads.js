@@ -28,12 +28,13 @@
         features:{
             hoomeCity:{type:Boolean,default:false},
             metrazh:{type:Number,default:null},
-            numTanaghe:{type:Number,default:null},
+            numTanaghe:{type:String,default:null},
             nearMetro:{type:Boolean,default:false}
         },
-        deposit:{type:Number,default:null}, 
-        rent:{type:Number,default:null}, 
-        sale:{type:Number,default:null}
+        depositPrice:{type:Number,default:null}, 
+        rentPrice:{type:Number,default:null}, 
+        sellPrice:{type:Number,default:null},
+         
     
 
 

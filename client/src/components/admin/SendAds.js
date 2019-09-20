@@ -5,13 +5,34 @@ import { Paper, Grid, Divider ,TextField,Select,Fab,Switch,Button} from '@materi
 import NavigationIcon from '@material-ui/icons/Navigation';
 import AdminLayout from  '../layouts/adminLayout';
 import "../../css/sendAds.css";
+import Dropzone from 'react-dropzone'
+
 
 class SendAds extends Component{
 
+    
+     
+    componentWillMount(){
+          //--- check if user neither do login or not
+          let userID=localStorage.getItem('userID');
+          let token=localStorage.getItem('token');
+          if(!userID || !token){
+              this.props.history.push('/signin')
+          }
+          if(token || userID){
+              this.setState({
+                  userID:localStorage.getItem('userID'),
+                  token:localStorage.getItem('token'),
+                
+              })
+
+          }
+          //--- 
+  
+    }
     componentDidMount(){
 
-        //  get province and city 
-
+   
         
     }
 
@@ -19,7 +40,25 @@ class SendAds extends Component{
         this.setState({
             [name]:event.target.value
             
-        })
+        })  
+
+        if(event.target.value == 'rent')      {
+            this.setState({
+                 rent_field_selected:'block',
+                 sell_field_selected:'none'
+
+            })
+        }
+
+        if(event.target.value == 'sell')      {
+            this.setState({
+                 sell_field_selected:'block',
+                 rent_field_selected:'none',
+            })
+        }
+       
+
+        console.log('name=',event.target.value)
     }
     handleSwitchChanges=(name)=>event=>{
         this.setState({
@@ -28,8 +67,7 @@ class SendAds extends Component{
     }
 
     // [emkanatMelk,]
-    state={
-      
+    state={      
         title:null,
         category:null,
         type:null,
@@ -37,7 +75,7 @@ class SendAds extends Component{
         city:null,
         address:null,
         content:null,
-        images:'image1.jpg',
+        images:[] ,
         date:'1398/10/5',
         time:'13:25',         
         mobile:null,
@@ -47,48 +85,37 @@ class SendAds extends Component{
         emkanat:[],
         hoomeCity:false,
         metrazh:null,
-        numTabaghe:null,
-        nearMetro:false
+        numTanaghe:null,
+        nearMetro:false,
+        rentPrice:null,
+        depositPrice:null,
+        sellPrice:null,
+        sell_field_selected:'none',
+        rent_field_selected:'none',
+        userID:null,
+        token:null
+       
     }
-     
+    onDrop = (files) => {
+        this.setState({images:files})
+         
+      };
     
     handleSubmit=(e)=>{
         e.preventDefault();
-        // let formData={
-        //     title:this.state.title,
-        //     category:this.adsCategory.value,
-        //     type:this.adsType.value,
-        //     userID:'user1',
-        //      province:this.adsProvince.value,
-        //      city:this.adsCity.value,
-        //      address:this.adsAddress.value,
-        //      content:this.adsContent.value,
-        //      images:'image1.jpg',
-        //      date:1398,
-        //      time:'13:25',
-        //      contactWay:{
-        //          mobile:this.adsMobile.value,
-        //          telegram:this.adsTelegram.value,
-        //          whatsapp:this.adsWhatsapp.value,
-        //          email:this.adsEmail.value
-        //      },
-        //      emkanat:this.adsEmkanat.value,
-        //      features:{
-        //          hoomeCity:true,
-        //          metrazh:320,
-        //          numTabaghe:0,
-        //          nearMetro:true
-        //      },
-        //     //  deposit:this.adsDeposit.value,
-        //     //  rent:this.adsRent.value,
-        //     //  sale:this.adsSale.value
-
-
-        // };
-
-     
-
-       axios.post(Keys.backendUrl+'/api/users/123/sendAds',this.state)
+        
+          let fd=new FormData()
+          this.state.images.map((file)=>{
+            fd.append('file',file)
+      
+          })
+         
+         axios.post(Keys.backendUrl+'/api/users/'+this.state.userID+'/sendAds',{...this.state,fd},{
+             headers:{
+                 token:this.state.token,
+                 'Content-Type':'multipart/form-data'
+             }
+         })
         .then((data)=>{
             if(data){
                 // console.log(data.data)   
@@ -103,6 +130,11 @@ class SendAds extends Component{
 
     }
     render(){
+        const files = this.state.images.map(file => (
+            <li key={file.name}>
+              {file.name} - {file.size} bytes
+            </li>
+          ));
         return(
 
             <section className="sendAds">
@@ -202,7 +234,7 @@ class SendAds extends Component{
                                             variant="outlined" 
                                             className="featureHouse-field"  
                                             placeholder="تعداد طبقه"
-                                            onChange={this.handleChanges('numTabaghe')}
+                                            onChange={this.handleChanges('numTanaghe')}
                                                                                        
                                         />
                                         </div>
@@ -436,6 +468,7 @@ class SendAds extends Component{
                                         style={{width:500}}                                       
                                         className="adsType-field"
                                         onChange={this.handleChanges('type')}
+                                        
                                     >
                                         <option value="" />
                                         <option value='rent'>رهن و اجاره</option>
@@ -448,7 +481,19 @@ class SendAds extends Component{
                                 </Grid>
 
                                 <Grid item sm={12}>
-                                    <div className="typeAds-content">  محتوای نوع آگهی  </div>
+                                    <div className="typeAds-content"> 
+                                       <section className="sell" style={{display:`${this.state.sell_field_selected}`}}>
+                                           <input type="text" placeholder="sell-price" onChange={this.handleChanges('sellPrice')}/>                                           
+                                        </section> 
+
+                                       <section className="rent" style={{display:`${this.state.rent_field_selected}`}}>
+                                           <input type="text" placeholder="رهن" onChange={this.handleChanges('depositPrice')}/>                                           
+                                           <input type="text" placeholder="اجاره" onChange={this.handleChanges('rentPrice')}/>                                           
+                                        </section>                                     
+
+
+                                     
+                                     </div>
                                 </Grid>
 
                                 <Grid item sm={12}>
@@ -548,7 +593,27 @@ class SendAds extends Component{
                                 </Grid>
 
                                 <Grid item sm={12}>
-                                    <span>جای آپلود فایل</span>
+                                    <Dropzone onDrop={this.onDrop} >
+                                        {({getRootProps, getInputProps}) => (
+                                        <section className="container">
+                                            <div {...getRootProps({className: 'dropzone'})}>
+                                            <input {...getInputProps()}  name="avatar"/>
+                                            <p>عکس های تان را اینجا درگ دراپ  کرده و یا کلیک کنید</p>
+                                            </div>
+                                            {/* <aside>
+                                            <h4>Files</h4>
+                                            <ul>{files}</ul>
+                                            </aside> */}
+                                        </section>
+                                        )}
+                                    </Dropzone>
+                                </Grid>
+
+                                <Grid item sm={12}>
+                                    <div className="imagesPreview"> 
+                                        {this.state.images? this.state.images.map((image)=>
+                                        <img className="imagePreview" src={URL.createObjectURL(image)}/>):null}
+                                    </div> 
                                 </Grid>
 
                                 

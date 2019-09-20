@@ -4,7 +4,7 @@ import {BrowserRouter as Router , Route ,Switch} from 'react-router-dom'
 import StockList1 from './components/testsComp/StockList1';
 import UserList1 from './components/testsComp/UserList1';
 import Hoc from './components/testsComp/HOC';
-// import Header from './components/admin/_Header'
+
 
 import SendAds from './components/admin/SendAds'
 import manageAds from './components/admin/manageAds';
@@ -28,12 +28,13 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import AboutMe from './components/AboutMe';
 import AboutSite from './components/AboutSite';
+import AdminDashboard from './components/admin/AdminDashboard';
+
+import Uploads from './components/PG/upload/upload3'
  
  
 //===========  test components ============
-import Test from './components/testCom2/test';
-import MyComponent from './components/testCom2/myComponent'
-import upload2 from './components/PG/upload/upload2';
+
  
 class App extends Component {
   
@@ -45,21 +46,24 @@ class App extends Component {
            <Route path='/user/manageAds' component={manageAds}/>
            <Route exact path='/user/ad/:id' component={DetailAds}/>
            <Route path='/user/ad/:id/edit' component={EditAds}/>
+           <Route path='/search' component={SearchAds}/>
+           
            <Route path='/user/profile/edit' component={editProfilej}/>       
-           <Route path='/user/profile/' component={showProfile}/>            
+           <Route path='/user/profile/' component={showProfile}/>      
+           <Route path='/signup' component={Signup}/>      
+           <Route path='/signin' component={Signin}/> 
+           <Route path='/dashboard' component={AdminDashboard}/> 
+
+
           <Route path='/test/counter' render={()=><Counter store={store}/>}/>
           <Route path="/test/menu" component={Menu}/> 
           <Route path="/test/menu1" component={Menu1}/> 
-          <Route path="/test/list" component={List1}/>
-          <Route path="/test/admin" component={adminLayout}/>
-          <Route  exact path="/test" component={upload2}/>
-      
+       
+          
+          <Route  exact path="/test" component={adminLayout}/>
+          <Route  exact path="/test/upload" component={Uploads}/>
 
-      
-
-            
-
-            
+          <Route path="/test2" component={SearchAds}/>
          </Switch>
        </Router>
     )

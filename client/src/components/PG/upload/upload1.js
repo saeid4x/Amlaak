@@ -9,6 +9,7 @@ export default function Basic(props) {
       {file.path} - {(file.size /1024)/1024}MB
     </li>
   ));
+  
 
   return (
     <section className="container">

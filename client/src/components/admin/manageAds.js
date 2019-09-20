@@ -4,7 +4,7 @@ import Keys from '../../config/keys';
 import {Link} from 'react-router-dom'
 import AdminLayout from '../layouts/adminLayout';
 import { Table ,Paper, TableHead,DialogTitle,Button,TableBody, TableRow,
-        TableCell, Dialog, DialogActions,Slide,Snackbar,TablePagination
+         TableCell, Dialog, DialogActions,Slide,Snackbar,TablePagination
 
             } from '@material-ui/core';
 
@@ -15,64 +15,45 @@ export default class extends Component{
             AdsData:[],
             openDialog:false,
             openSnackBar:false,
-            tableRefresh:false
+            tableRefresh:false,
+            tempID:null,
+            userID:null,
+            token:null
         
         }
 
-    //   //for snackbar
-    //  TransitionLeft(props) {
-    //     return <Slide {...props} direction="left" />;
-    //   }
 
 
-    componentDidMount(){
 
-        axios.get(Keys.backendUrl+'/api/users/123/getAds')
-            .then((data)=>{
-                if(data){
-                    console.log(data.data);
-                    this.setState({
-                        AdsData:data.data
-                    })
-                    
-                }
+    
+    componentWillMount(){
+        //--- check if user neither do login or not
+        let userID=localStorage.getItem('userID');
+        let token=localStorage.getItem('token');
+        if(!userID || !token){
+            this.props.history.push('/signin')
+        }
+        if(userID || token){
+            this.setState({
+                userID,token
             })
+        }
+        //--- 
+
+  }
+    componentDidMount(){
+            
+        // axios.get("http://127.0.0.1:8010/api/users/getAds/123")
+        //     .then((data)=>{
+        //         if(data){
+        //             console.log(data.data)
+        //         }
+        //     })
+       
         
 
     }
-    
-        // getProvivce(param){
-        //     switch(param){
-        //         case 'tehran':
-        //             return "تهران"
-        //             break;
-        //         case 'nkh-razavi':
-        //             return 'خراسان رضوی'
-        //             break;
-        //         case 'nkh':
-        //             return 'خراسان شمالی'
-        //             break;
-                    
-        //     }
-
-        // }
-
-        // getCity(city){
-        //     switch(city){
-        //         case 'bojnord':
-        //             return 'بجنورد'
-        //             break;
-        //         case 'tehran':
-        //             break
-        //     }
-        // }
-    handleDialogOpen=()=>{
-        this.setState({
-            openDialog:true
-        })
-
-    }
-
+     
     handleDialogClose=()=>{
         this.setState({
             openDialog:false
@@ -109,16 +90,44 @@ export default class extends Component{
     }
 
     handleDelete=(id)=>{
-          
+          this.setState({
+              tempID:id,
+              openDialog:true
 
-        axios.get(Keys.backendUrl+'/api/users/remove/'+id)
+          })
+
+
+       
+           
+    }
+    // setShowDialog=(show)=>{
+    //     this.setState({
+    //         openDialog:show
+
+    //     })
+    // }
+    handleDialogIgnore=()=>{
+        console.log('you ignored this dialog');
+       
+        this.setState({
+            openDialog:false
+        })
+
+    }
+
+    handleDialogAccept=()=>{
+        console.log('you accepted this dialog')
+ axios.get(Keys.backendUrl+'/api/users/remove/'+this.state.tempID)
             .then((data)=>{
                 console.log(data.data)
                 if(data.data.remove){
-                    this.setState({
-                        AdsData:this.state.AdsData.push() 
+                    // this.setState({
+                    //     AdsData:this.state.AdsData.push() 
                         
-                    })
+                    // })
+                    // alert('removed')
+                    
+                    window.location.reload();
                 }
                     else if(!data.data.remove){
                         alert('delete failed')
@@ -127,19 +136,6 @@ export default class extends Component{
 
                 });
  
-           
-    }
-    setShowDialog=(show)=>{
-        this.setState({
-            openDialog:show
-
-        })
-    }
-    handleDialogIgnore=()=>{
-
-    }
-
-    handleDialogAccept=()=>{
 
     }
     render(){
@@ -164,7 +160,7 @@ export default class extends Component{
                  
                 <TableCell>
                     <Link to={`/user/ad/${item._id}`} className="btn btn-primary">مشاهده</Link>
-                   <Link onClick={(id)=>{this.handleDelete(item._id)}} className="btn btn-danger">حذف</Link>
+                   <Link onClick={()=>{this.handleDelete(item._id)}} className="btn btn-danger">حذف</Link>
                    {/* <Link className="btn btn-danger">حذف</Link> */}
                     <Link to={`/user/ad/${item._id}/edit`} className="btn btn-warning">ویرایش</Link>
 
@@ -223,7 +219,7 @@ export default class extends Component{
                 open={this.state.openDialog}
                 TransitionComponent={Transition}
                 keepMounted
-                onclose={this.handleDialogClose}                
+                // onclose={this.handleDialogClose}                
             >
                 <DialogTitle>
                     {"آیا از حذف آیتم مورد نظر اطمینان دارید؟"}
@@ -235,28 +231,6 @@ export default class extends Component{
                 </DialogActions>
 
             </Dialog>
-
-          
-
-{/* 
-                <table className="table">
-                  <tr>
-                      <th>  #   </th>
-                      <th>  عنوان آگهی    </th>
-                      <th>  تاریخ ارسال     </th>
-                      <th>   نوع آگهی   </th>
-                      <th>   دسته بندی آگهی   </th>
-                      <th>   بازدید  </th>
-                      <th>    اقدامات </th>
-                       
-                  </tr>
-                  {/* place body table.... */}
-                  {/* {data} */}
-
-                {/* </table> */}
-                
-            */}
-
 
             </section>
         )

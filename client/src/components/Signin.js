@@ -5,17 +5,42 @@ import AdminLayout from './layouts/adminLayout';
 import {Paper,Divider,Grid,TextField, Button
                 
                 } from "@material-ui/core";
+import axios from 'axios'
+import keys from '../config/keys'
+
 
 
 export default class extends Component{
 
+    state={
+        username:null,
+        email:null,
+        password:null
+    }
+    handleChanges=(name)=>event=>{
+        this.setState({
+            [name]:event.target.value
+        })
+       
+    }
+    handleSubmit=(e)=>{
+        e.preventDefault();
+        axios.post(keys.backendUrl+'/api/users/signin',this.state)
+            .then((data)=>{
+                if(data){
+                    console.log(data.data.msg)
+                    console.log(data.data)
+                }
+            })
+
+    }
     render(){
 
       return  (
             <section className="signin">
                 <AdminLayout/>
-                
-                <section className="signin-content">
+                <form onSubmit={this.handleSubmit}>
+                <section className="signin-content" style={{marginTop:80}}>
                     <Paper>
                     <div>
                         <center>
@@ -38,6 +63,7 @@ export default class extends Component{
                                     margin="dense"
                                     variant="outlined"
                                     className="signin-fields"
+                                    onChange={this.handleChanges('username')}
                                         />
                                 </div>
                                 
@@ -57,6 +83,7 @@ export default class extends Component{
                                     margin="dense"
                                     variant="outlined"
                                     className="signin-fields"
+                                    onChange={this.handleChanges('password')}
                                         />
                                 </div>
                                 
@@ -66,7 +93,7 @@ export default class extends Component{
 
                         <Grid item sm={12}>
                             <center>
-                            <Button variant="outlined" color="primary" style={{marginTop:15}}>ورود به حساب</Button>
+                            <Button variant="outlined" type="submit" color="primary" style={{marginTop:15}}>ورود به حساب</Button>
                             </center>
                         </Grid>
                         <Grid item sm={12}>
@@ -75,7 +102,7 @@ export default class extends Component{
                                 </Link>
                             </p>
                             <p style={{textAlign:'right',marginRight:20}}>
-                                هنوز عضو نیستید؟ <Link to="">ثبت نام در سایت</Link>
+                                هنوز عضو نیستید؟ <Link to="/signup">ثبت نام در سایت</Link>
                             </p>
                         </Grid>
                         <Grid item sm={12}>
@@ -102,7 +129,7 @@ export default class extends Component{
                     </Grid>
                     </Paper>
                 </section>
-
+                </form>
                 
             </section>
         )

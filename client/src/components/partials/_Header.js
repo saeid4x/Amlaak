@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
   }));
 
-export default function Header(){
+export default function Header(props){
        
     const [anchor,setAnchor]=useState(null);
     const [openDrawer,setOpenDrawer]=useState(false);
@@ -71,6 +71,7 @@ export default function Header(){
          
        setOpenDrawer(  status)
     }
+    
       const classes = useStyles();
         return(
             <section className="_header">
@@ -78,7 +79,7 @@ export default function Header(){
                  <Toolbar className="_header-toolbar"> 
                       <h3 onClick={toggleDrawer(true)}>سایت املاک</h3>
                       <DeleteIcon></DeleteIcon>
-
+{console.log(props.userinfo)}
 
                 <section className="left-sec">
                      <Link to=''>
@@ -158,8 +159,10 @@ export default function Header(){
         <section className="avatar-sec">
 
         <img src="/img/1.jpg" alt="" />
-        <p className="avatar-username">saeid4x</p>
-        <p className="avatar-typeUser">کاربر عادی</p>
+        <p className="avatar-username"> 
+          {props.userInfo}
+         </p>
+      
         <div className="avatar-profile-icon">
           <Tooltip title="ویرایش پروفایل" >
             <Link to="">

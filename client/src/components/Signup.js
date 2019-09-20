@@ -4,37 +4,70 @@ import "../css/signup.css";
 import {Grid,Button,Paper, TextField,Checkbox,Divider
             
             } from '@material-ui/core'
+import axios from 'axios'
+import keys from '../config/keys';
 
 export default class extends Component{
 
     state={
-        chackboxChecked:false
+        chackboxChecked:true,
+        username:null,
+        email:null,
+        password:null,
+        confirmPassword:null,
+     
     }
     handleChackbox=()=>{
         
         this.setState({
             chackboxChecked:!this.state.chackboxChecked
-        })
-        setTimeout(() => {
-            console.log(this.state.chackboxChecked)
-            if(this.state.chackboxChecked === false){
-                console.log('chackbox unChecked!')
-    
-            }else{
-                console.log('chackbox Checked!')
-            }
-            
-        }, 1000);
+        }) 
+       
+    }
+    handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log('signup occured')
+        axios.post(keys.backendUrl+"/api/users/signup",this.state)
+            .then((data)=>{
+                if(data.data.msg === "blank-field"){
+                    console.log(data.data.fullMsg)
+                }
+                if(data.data.msg === 'user-exist'){                      
+                    console.log("user already exist")
+                }
+                else if(data.data.isValid){
+                  
+                    localStorage.setItem('userID',data.data.id)
+                    localStorage.setItem('token',data.data.token)
+
+                    this.props.history.push('/dashboard')
+
+
+                }
+                
+            })
        
         
+         
     }
+
+    handleChanges=(name)=>event=>{
+        this.setState({
+            [name]:event.target.value
+        })
+        
+    }
+componentDidMount(){
+
+}
     render(){
+       
         return(
             <section className="signup">
                 <AdminLayout/>
-
+ 
                 
-                <section className="signup-content">
+                <section className="signup-content" style={{marginTop:80}}>
                 <Paper>
                     <Grid container sm={12} direction="row-reverse">
                         <Grid item sm={4}>
@@ -60,8 +93,9 @@ export default class extends Component{
                             </div>
 
                         </Grid>
-
+                
                         <Grid item sm={8}>
+                        <form onSubmit={this.handleSubmit}>
                             <div className="signup-fields">
                                 <div className="signup-header">
                                     <center>
@@ -69,6 +103,7 @@ export default class extends Component{
                                     </center>
                                 </div>
                                 <Grid container sm={12} direction="row-reverse">
+                                    
                                     <Grid item sm={2}>
                                         <div className="signup-lbl">                                         
                                                <p> نام کاربری </p>                                      
@@ -81,10 +116,12 @@ export default class extends Component{
                                             margin="dense"
                                             variant="outlined"
                                             className="signup-inputs"
+                                            onChange={this.handleChanges('username')}
                                                 />
                                     </Grid>
+                                    
                                 </Grid>
-
+                                
                                 {/* ====  email field */}
                                 <Grid container sm={12} direction="row-reverse">
                                     <Grid item sm={2}>
@@ -99,6 +136,7 @@ export default class extends Component{
                                             margin="dense"
                                             variant="outlined"
                                             className="signup-inputs"
+                                            onChange={this.handleChanges('email')}
                                                 />
                                     </Grid>
                                 </Grid>
@@ -117,6 +155,7 @@ export default class extends Component{
                                             margin="dense"
                                             variant="outlined"
                                             className="signup-inputs"
+                                            onChange={this.handleChanges('password')}
                                                 />
                                     </Grid>
                                 </Grid>
@@ -135,6 +174,7 @@ export default class extends Component{
                                             margin="dense"
                                             variant="outlined"
                                             className="signup-inputs"
+                                            onChange={this.handleChanges('confirmPassword')}
                                                 />
                                     </Grid>
                                 </Grid>
@@ -144,19 +184,16 @@ export default class extends Component{
                                 <div className="signup-aggrement">
                                 <span>با قوانین موافقم</span>
                                  <Checkbox
-                                    checked={this.state.chackboxChecked}
+                                    // checked={this.state.chackboxChecked}
                                     onChange={this.handleChackbox}
-                                    value="checkedA"
-                                    inputProps={{
-                                    'aria-label': 'primary checkbox',
-                                    }}
+                                    value="checkedA"                                    
                                 />
                                
                                 </div>
 
                                 {/* ======= signup button========= */}
                                 <div className="signup-btn">
-                                    <Button variant="outlined" color="primary"> ثبت نام</Button>
+                                    <Button variant="outlined" type="submit" color="primary" disabled={this.state.chackboxChecked} > ثبت نام</Button>
                                 </div>
                                 
                                 {/* =====  signup with social area=========== */}
@@ -178,9 +215,9 @@ export default class extends Component{
 
 
                             </div>
-
+                            </form>
                         </Grid>
-
+                        
                     </Grid>
                     </Paper>
                 </section>

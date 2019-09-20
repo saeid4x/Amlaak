@@ -1,4 +1,4 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 import "../css/Aboutme.css"
 import {Grid, Paper ,Divider
             

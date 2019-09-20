@@ -11,6 +11,7 @@ import { Paper,Divider, TextField ,Grid,Button
 
         } from '@material-ui/core';
 import AdminLayout from './layouts/adminLayout';
+import keys from '../config/keys';
 
  
 
@@ -18,26 +19,66 @@ export default class extends Component{
 
     state={
         adsData:null,
-        favoriteStatus:null
+        favoriteStatus:null,
+        showRentSegment:'none',
+        showRentSegment:'none',
+        favoriteColor:'black'
     }
     
     AddFavorite=(adsID,userID)=>{
-        let data={
-            adsID,userID
+       
+
+    }
+
+    handleFavorite=()=>{
+        let myData={
+            userID:123,
+            adsID:this.props.match.params.id
         }
-        axios.post(Keys.backendUrl+'/api/users/addFavorite',data)
+        console.log('%%====',this.state.favoriteStatus)
+ 
+         if(this.state.favoriteStatus){
+             /*--if favorite status == true
+              - remove from favorite
+              - favorite-status == false 
+            */
+           axios.post(keys.backendUrl+'/api/users/removeFavorite',myData)
             .then((data)=>{
                 if(data.data){
+                    console.log('handle favorite= removed!')
                     this.setState({
-                        favoriteStatus:true
+                        favoriteStatus:false,
+                        favoriteColor: "black"
                     })
                 }
             })
 
+
+         }
+          if(!this.state.favoriteStatus || this.state.favoriteStatus == null){
+            /* -- else if(favorite-states == false)
+
+                        - add to favorite 
+                        - favorite-status == true 
+                    */ 
+            
+            axios.post(Keys.backendUrl+'/api/users/addFavorite',myData)
+                .then((data)=>{
+                    if(data.data){
+                        this.setState({
+                            favoriteStatus:true,
+                            favoriteColor:'yellow'
+                        })
+                    }
+                })
+         }
+
+         
+       
     }
   
     componentWillMount(){
-         let adsID=this.props.match.params.id;
+         var adsID=this.props.match.params.id;
         axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID)
             .then((data)=>{
                 if(data.data){
@@ -46,30 +87,43 @@ export default class extends Component{
                         adsData:data.data
                     })
                 }
-            }).then(()=>{
-                axios.get(Keys.backendUrl+'/api/users/getFavoriteStatus/'+this.state.adsData.userID+'/'+this.state.adsData._id)
-                    .then((data)=>{
-                        if(data.data){
 
+                if(data.data.Type == 'rent'){
+                    this.setState({
+                        showRentSegment:'block',
+                        showSellSegment:'none'
+                    })
+                }
+                if(data.data.Type == 'sell'){
+                    this.setState({
+                        showSellSegment:'block',
+                        showRentSegment:'none'
+                    })
+                }
+
+                
+            }).then(()=>{
+                axios.get(Keys.backendUrl+'/api/users/getFavoriteStatus/'+123+'/'+adsID)
+                    .then((data)=>{
+                        if(data.data){                           
                             this.setState({
-                                favoriteStatus:true
-                            })
-                           
+                                favoriteStatus:true,
+                                favoriteColor:'yellow'
+                            })  
                             
                         }
-                    })
-            }).then(()=>{
-                console.log('@3000',this.state.adsData)
-            })
+                    }) 
+            }) 
     }
 
     render(){
-         
+        
+         let favoriteStatus=this.state.favoriteStatus? this.state.favoriteStatus:null
          let adsData=this.state.adsData ? this.state.adsData:'';
           let FeaturesAds=adsData.features ? adsData.features : '';
           let ContactWay=adsData.contactWay ? adsData.contactWay:'';
           
-          
+
         
         return(
             <section className='detailAd'>
@@ -128,8 +182,7 @@ export default class extends Component{
                             </li>
                             <li>
                                 <p className="complateAddress">
-
-                                                  
+                                          {adsData.address}       
                                 </p>
                             </li>
 
@@ -145,21 +198,36 @@ export default class extends Component{
                         <div>
                             
                         </div>
+                            <section className="rentSegment" style={{display:`${this.state.showRentSegment}`}}>
+                                <ul className="priceAds">
+                                <li>
+                                    <p className="priceAds-text">رهن</p>
+                                </li>
+                                <li >
+                                    <p className="priceAds-price">{adsData.depositPrice}</p>
+                                </li>
+                                <li>
+                                    <p className="priceAds-text">اجاره</p>
+                                </li>
+                                <li >
+                                <p className="priceAds-price">{adsData.rentPrice}</p> 
+                                </li>
+                            </ul>
+                            </section>
 
-                        <ul className="priceAds">
-                        <li>
-                            <p className="priceAds-text">رهن</p>
-                        </li>
-                        <li >
-                            <p className="priceAds-price">500,000,000</p>
-                        </li>
-                        <li>
-                            <p className="priceAds-text">اجاره</p>
-                        </li>
-                        <li >
-                           <p className="priceAds-price">500,000</p> 
-                        </li>
-                    </ul>
+                            <section className="sellSegment" style={{display:`${this.state.showSellSegment}`}}>
+                                <ul className="priceAds">
+                                <li>
+                                    <p className="priceAds-text">فروش</p>
+                                </li>
+                                <li >
+                                    <p className="priceAds-price">{adsData.sellPrice}</p>
+                                </li>
+                                
+                            </ul>
+                            </section>
+                        
+
 
                     </section>
 
@@ -250,6 +318,14 @@ export default class extends Component{
                             <Divider/>
                             <ul>
                                 <li> حومه شهر : {FeaturesAds.hoomeCity ? 'هست':'نیست'}</li>
+                                <li>
+                                    <Button color="secondary"  variant="outlined"
+                                            style={{border:`3px solid ${this.state.favoriteColor}`}}
+                                            onClick={this.handleFavorite} > 
+                                          add favorite
+                                    </Button>
+                                         
+                                </li>
                                                              
                             </ul>
                         </div>

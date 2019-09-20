@@ -3,7 +3,7 @@ mongoose=require('mongoose'),
 Schema=mongoose.Schema;
 
 let UsersSchema=new Schema({
-    _id:{type:String,default:null},
+    
     username:{type:String,default:null},
     password:{type:String,default:null},
     email:{type:String,default:null},

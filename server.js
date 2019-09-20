@@ -7,9 +7,9 @@ var routes=require('./Apis/routes');
 var users=require('./Apis/users');
 
 app.use(bodyParser.urlencoded({
-    extended:true
+    extended:false
 }));
- // app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("./public"));
 app.use(cors());

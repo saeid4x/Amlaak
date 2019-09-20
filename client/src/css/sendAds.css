@@ -128,3 +128,21 @@
     margin-left:80px;
 }
  
+/* ====  uload image style ==== */
+.imagePreview{
+    width: 150px;
+    height: 150px;
+    padding: 20px;
+}
+.dropzone{
+    background-color:red;
+    height: 120px;
+    margin-bottom: 10px;
+}
+.dropzone p {
+    color:white;
+    padding: 50px;
+    margin: 0 0 0 70px;
+    direction: rtl
+
+}
