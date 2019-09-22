@@ -1,0 +1,44 @@
+handleSubmit=(e)=>{
+    e.preventDefault();
+    
+      let fd=new FormData()
+      this.state.images.map((file)=>{
+        fd.append('file',file)
+  
+      })
+      let myData={
+          title:'title 1',
+          body:'body 1'
+      }
+      axios.post(Keys.backendUrl+'/api/users/'+this.state.userID+'/sendAds',fd,{
+        headers:{
+           token:this.state.token,
+            'Content-Type':'multipart/form-data'
+               }
+           })
+            .then((data)=>{
+ 
+                })
+
+    }
+
+=====================================
+ router.post('/:userID/sendAds',upload.any(),(req,res)=>{
+        
+            // handle imags
+            var adsImages=[]
+            req.files.map((image)=>{
+                adsImages.push(image.filename)
+            })
+            console.log('adsImages',adsImages)
+              
+
+             new AdsModel({
+                title:req.body.title,
+                body:req.body.body
+             })
+
+ }
+ ==================================
+        
+ 

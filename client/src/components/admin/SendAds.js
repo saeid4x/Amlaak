@@ -6,6 +6,7 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import AdminLayout from  '../layouts/adminLayout';
 import "../../css/sendAds.css";
 import Dropzone from 'react-dropzone'
+ 
 
 
 class SendAds extends Component{
@@ -31,11 +32,45 @@ class SendAds extends Component{
   
     }
     componentDidMount(){
+        //get province 
+        axios.get(Keys.backendUrl+'/api/users/getProvince') 
+            .then((data)=>{
+                if(data.data){
+                    console.log('@data',data.data)
+                    this.setState({
+                        provinceData:data.data
+                    })
+                }
+            })
 
-   
+
+        //  set province and city
+        
         
     }
+    handleProvinceChange=(name)=>event=>{
+        //  get cities by province selected 
+        
+        this.state.provinceData.map((item)=>{
+            if(item.provinceName === event.target.value){
+                this.setState({
+                    citiesData:item.cities,
+                    province:item.provinceName
 
+                })
+              
+            }
+        })
+         
+
+    }
+    handleCityChange=(city)=>event=>{
+        this.setState({
+            city:event.target.value
+        })
+         
+
+    }
     handleChanges=(name)=>event=>{
         this.setState({
             [name]:event.target.value
@@ -92,8 +127,10 @@ class SendAds extends Component{
         sellPrice:null,
         sell_field_selected:'none',
         rent_field_selected:'none',
-        userID:null,
-        token:null
+        userID:localStorage.getItem('userID'),
+        token:null,
+        provinceData:[],
+        citiesData:[]
        
     }
     onDrop = (files) => {
@@ -104,37 +141,71 @@ class SendAds extends Component{
     handleSubmit=(e)=>{
         e.preventDefault();
         
+        // == append to form-data
           let fd=new FormData()
           this.state.images.map((file)=>{
-            fd.append('file',file)
+            fd.append('files',file)
       
           })
-         
-         axios.post(Keys.backendUrl+'/api/users/'+this.state.userID+'/sendAds',{...this.state,fd},{
-             headers:{
-                 token:this.state.token,
-                 'Content-Type':'multipart/form-data'
-             }
-         })
-        .then((data)=>{
-            if(data){
-                // console.log(data.data)   
-                this.props.history.push("/user/manageAds");
-            }
-        })
+          fd.append('title',this.state.title)
+          fd.append('category',this.state.category)
+          fd.append('type',this.state.type)
+          fd.append('province',this.state.province)
+          fd.append('city',this.state.city)
+          fd.append('address',this.state.address)
+          fd.append('content',this.state.content)
+          fd.append('mobile',this.state.mobile)
+          fd.append('telegram',this.state.telegram)
+          fd.append('whatsapp',this.state.whatsapp)
+          fd.append('email',this.state.email)
+          fd.append('hoomeCity',this.state.hoomeCity)
+          fd.append('metrazh',this.state.metrazh)
+          fd.append('numTanaghe',this.state.numTanaghe)
+          fd.append('nearMetro',this.state.nearMetro)
+          if(this.state.type == 'rent'){
+            fd.append('rentPrice',this.state.rentPrice)
+            fd.append('depositPrice',this.state.depositPrice)
+          }
+          if(this.state.type == 'sell'){
+            fd.append('sellPrice',this.state.sellPrice)
+          }
+          fd.append('userID',this.state.userID)
+          fd.append('token',this.state.token)  
+        //   ====
 
-        
+      
 
-
-        
-
+            //    send images to server 
+            axios.post(Keys.backendUrl+'/api/users/'+this.state.userID+'/sendAds',fd,{
+                headers:{
+                   token:this.state.token,
+                   'Content-Type':'multipart/form-data'
+                       }
+                   })
+                    .then((data)=>{
+                        if(data){
+                            // console.log('@300= ',data.data)
+                            this.props.history.push('/user/manageAds')
+                        }
+                    })
+console.log('@100[this.state]',this.state)
+                        
     }
+
     render(){
-        const files = this.state.images.map(file => (
-            <li key={file.name}>
-              {file.name} - {file.size} bytes
-            </li>
-          ));
+
+        // const files = this.state.images.map(file => (
+        //     <li key={file.name}>
+        //       {file.name} - {file.size} bytes
+        //     </li>
+        //   ));
+        var provinceList= this.state.provinceData.map((item)=>(
+            <option value={item.provinceName}>{item.provinceName}</option>
+        ))
+         var cities= this.state.citiesData.map((city)=>(
+            <option value={city.name}>{city.name}</option>
+         ))
+        console.log('@data2=',provinceList)
         return(
 
             <section className="sendAds">
@@ -533,13 +604,12 @@ class SendAds extends Component{
                                           <Select
                                             native                                         
                                             className="city-field"
-                                            onChange={this.handleChanges('city')}  
+                                            onChange={this.handleCityChange('city')}  
                                         
                                             >
                                             <option value="" />
-                                            <option value="mashhad">مشهد</option>
-                                            <option value="bojnourd"> بجنورد   </option>
-                                            <option value="shiraz">شیراز</option>
+                                      
+                                            {cities}
                                            </Select>
                                        </Grid>
 
@@ -551,13 +621,14 @@ class SendAds extends Component{
                                          <Select
                                             native
                                             className="province-field"  
-                                            onChange={this.handleChanges('province')}                                
+                                            // onChange={this.handleChanges('province')} 
+                                            onChange={this.handleProvinceChange('province')}
+                                           
+                                                                        
                                            
                                             >
                                             <option value="" />
-                                            <option value='nkh'>خراسان شمالی</option>
-                                            <option value='kh-razavi'>خراسان رضوی </option>
-                                            <option value='tehran'>تهران</option>
+                                            {provinceList}
                                             </Select>
                                        </Grid>
 

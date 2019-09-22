@@ -11,6 +11,7 @@ var jwt=require("jsonwebtoken");
 var key=require("../config/keys")
 var auth=require('../middleware/auth')
 var path=require('path')
+var app=express()
 
 var multer=require('multer')
  
@@ -31,7 +32,11 @@ var storage=multer.diskStorage({
  // <upload-multer />
 
 
-
+ app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 
 
@@ -45,62 +50,65 @@ var storage=multer.diskStorage({
     // #Route:  api/users
     // #Access: private
     router.post('/:userID/sendAds',upload.any(),(req,res)=>{
-        let formData=req.body ;
-        let userID=req.body.userID
-        let adsImages=[]
-         req.files.map((image)=>{
-             adsImages.push(image.filename)
-
-         })
-
-      
-        console.log('adsImages',adsImages)
-        new AdsModel({
-            title:formData.title,
-             contactWay:{
-                 mobile:formData.mobile,
-                 telegram:formData.telegram,
-                 whatsapp:formData.whatsapp,
-                 email:formData.email
-
-             },
-             features:{
-                hoomeCity:formData.hoomeCity,
-                metrazh:formData.metrazh,
-                numTanaghe:formData.numTanaghe,
-                nearMetro:formData.nearMetro
-             },
-            category:formData.category,
-            Type:formData.type,
-            userID:userID,        
-            bazdid:1,
-            province:formData.province,
-            city:formData.city,
-            address:formData.address,
-            content:formData.content,
-            images:adsImages,  //must be array
-            date:formData.date,
-            time:formData.time,
-            depositPrice:formData.depositPrice,
-            rentPrice:formData.rentPrice,
-            sellPrice:formData.sellPrice,
-            numTanaghe:formData.numTanaghe
-        }).save((err,data)=>{
-            if(data){
-                res.json(data)
-            }
-            else if(err){
-                res.send('err during insert new data\n'+err)
-
-            }
-        })
+        
+            
+            // handle imags
+            var adsImages=[]
+            req.files.map((image)=>{
+                adsImages.push(image.filename)
+            })
+            console.log('adsImages',adsImages)
+         
+            //  handle other form data
+            var formData=req.body ;
+            var userID=req.body.userID;
+            new AdsModel({
+                title:formData.title,
+                 contactWay:{
+                     mobile:formData.mobile,
+                     telegram:formData.telegram,
+                     whatsapp:formData.whatsapp,
+                     email:formData.email
+    
+                 },
+                 features:{
+                    hoomeCity:formData.hoomeCity,
+                    metrazh:formData.metrazh,
+                    numTanaghe:formData.numTanaghe,
+                    nearMetro:formData.nearMetro
+                 },
+                category:formData.category,
+                Type:formData.type,
+                userID:userID,        
+                bazdid:1,
+                province:formData.province,
+                city:formData.city,
+                address:formData.address,
+                content:formData.content,
+                images:adsImages,  //must be array
+                date:formData.date,
+                time:formData.time,
+                depositPrice:formData.depositPrice,
+                rentPrice:formData.rentPrice,
+                sellPrice:formData.sellPrice,
+                numTanaghe:formData.numTanaghe
+            }).save((err,data)=>{
+                if(data){
+                    res.json(data)
+                }
+                else if(err){
+                    res.send('err during insert new data\n'+err)
+    
+                }
+            })
+       
     })
 
 
     // #Route:  api/users
     // #Access: private
     router.get('/getAds/:userID',(req,res)=>{
-        // console.log('@[userID]=',req.params.userID)
+        console.log('@[userID]=',req.params.userID)
         AdsModel.find({userID:req.params.userID})        
             .then((data)=>{
                
@@ -138,9 +146,7 @@ var storage=multer.diskStorage({
                     res.json({remove:true});
 
                 }
-                else if(!data){
-                    res.json({remove:false})
-                }
+                
             })
     })
 
@@ -149,6 +155,7 @@ var storage=multer.diskStorage({
     //edit Ads
     router.post('/modify/:adsID',auth,(req,res)=>{
         let formData=req.body;
+        console.log(req.body)
         let myData={
             title:formData.title,
              contactWay:{
@@ -166,7 +173,7 @@ var storage=multer.diskStorage({
              },
             category:formData.category,
             Type:formData.type,
-            userID:123,        
+            userID:formData.userID,        
             bazdid:1,
             province:formData.province,
             city:formData.city,
@@ -291,22 +298,7 @@ router.post('/removeFavorite',auth,(req,res)=>{
             {}
         ])
     })
-//  get peovince and city 
-    router.get('/getProvince',(req,res)=>{
-
-        ProvinceModel.find({})
-            .then((data)=>{         
-                   
-                
-            }).catch((err)=>{
-                console.log(err)
-            })
-
-
-
-
-    })
-
+ 
     // #Route:  api/users
     // #Access: public
     // search ads 
@@ -423,7 +415,7 @@ router.post('/removeFavorite',auth,(req,res)=>{
         UserModel.findOne({username})
             .then((user)=>{
                 if(!user){
-                    return res.json({msg:"this user not exist"})
+                    return res.status(400).json({msg:"this user not exist"})
                 }
 
                 // check password with password-hashed
@@ -434,7 +426,7 @@ router.post('/removeFavorite',auth,(req,res)=>{
                         // generate token
                          
                         jwt.sign(
-                            {id:user.id,user:user.username},
+                            {id:user.id,username:user.username},
                             key.jwtSecret,
                             {expiresIn:3600},
                             (err,token)=>{
@@ -454,6 +446,31 @@ router.post('/removeFavorite',auth,(req,res)=>{
             })
         
     })
+
+    // get province
+    // api/users/getProvince
+    router.get('/getProvince',(req,res)=>{
+        ProvinceModel.find({})
+            .then((data)=>{
+                if(data){
+                   
+                //     let myData=[]
+                //    data.map((item)=>{                       
+                //        myData.push({
+                //         provinceName:item.provinceName,
+                //         provinceID:item.provinceID
+                //     }) 
+                //    })
+                   res.json(data)
+
+                }
+               else{
+                   req.status(400).json({msg:'err'})
+               }
+            })
+
+    })
+
 
 
     //test anything
@@ -480,24 +497,24 @@ router.post('/removeFavorite',auth,(req,res)=>{
 
     // test upload images
     // api/users/getImage
-    router.post('/getImages',upload.any(),(req,res)=>{
-         let images=[];
-         images=req.files;
-         images.map((img)=>{
-             console.log(img.filename);
-            
+    router.post('/getImages',upload.any(),(req,res)=>{       
+            // handle only images 
+            let images=[];
+            images=req.files;
+            console.log('[req.files]',req.files)   
 
-         });
+         
+         const {state}=req.body
+         console.log('state', state)
 
-         console.log('name= ',req.body.name);
+          
+              
     })
 
     // // test 
     router.get('/test/:id',(req,res)=>{
-        console.log(req.params.id)
-        let data={
-            name:'saeid'
-        }
-        res.json(data)
+
+
+        
     })
 module.exports=router;

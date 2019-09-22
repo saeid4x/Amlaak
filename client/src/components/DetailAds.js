@@ -78,14 +78,40 @@ export default class extends Component{
     }
   
     componentWillMount(){
+
+  //--- check if user neither do login or not
+  let userID=localStorage.getItem('userID');
+  let token=localStorage.getItem('token');
+  if(!userID || !token){
+      this.props.history.push('/signin')
+  }
+  if(token || userID){
+      this.setState({
+          userID:localStorage.getItem('userID'),
+          token:localStorage.getItem('token'),
+        
+      })
+
+  }
+  //--- 
+
+
+
+
          var adsID=this.props.match.params.id;
-        axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID)
+         var config={
+             headers:{
+                 token:localStorage.getItem('token')
+             }
+         }
+        axios.get(Keys.backendUrl+'/api/users/getAd/'+adsID,config)
             .then((data)=>{
                 if(data.data){
                      
                     this.setState({
                         adsData:data.data
                     })
+                    
                 }
 
                 if(data.data.Type == 'rent'){
@@ -103,7 +129,7 @@ export default class extends Component{
 
                 
             }).then(()=>{
-                axios.get(Keys.backendUrl+'/api/users/getFavoriteStatus/'+123+'/'+adsID)
+                axios.get(Keys.backendUrl+'/api/users/getFavoriteStatus/'+123+'/'+adsID,config)
                     .then((data)=>{
                         if(data.data){                           
                             this.setState({
@@ -118,21 +144,27 @@ export default class extends Component{
 
     render(){
         
+        
          let favoriteStatus=this.state.favoriteStatus? this.state.favoriteStatus:null
          let adsData=this.state.adsData ? this.state.adsData:'';
           let FeaturesAds=adsData.features ? adsData.features : '';
           let ContactWay=adsData.contactWay ? adsData.contactWay:'';
+        let adsImages=adsData.images ?  adsData.images.map((img)=>(
+                <div>
+                    <img src={Keys.backendUrl+'/uploads/images/'+img} />
+                    {/* <p className="legend"> </p> */}
+                </div>
+        )):null
+          
+
+          
           
 
         
         return(
             <section className='detailAd'>
                 <AdminLayout></AdminLayout>
-               {/* 
-                    <button className="btn btn-primary" onClick={( )=>this.AddFavorite(this.state.adsData._id,this.state.adsData.userID)}>add Favorite </button>
-
-                    <h3>{this.state.favoriteStatus ==true ? 'favorited':'not favorited'}</h3>
-                */} 
+          
 
     {/* ======================================================== body =========================================================== */}
 
@@ -150,22 +182,7 @@ export default class extends Component{
               width={'100%'}
             
             >
-                <div>
-                    <img src="/img/1.jpg" />
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src="/img/2.jpg" />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src="/img/3.jpg" />
-                    <p className="legend">Legend 3</p>
-                </div>
-                <div>
-                    <img src="/img/4.jpg" />
-                    <p className="legend">Legend 3</p>
-                </div>
+                {adsImages}
             </Carousel>
             </Paper>
             </section>

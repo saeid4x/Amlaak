@@ -36,7 +36,7 @@ export default class extends Component{
                     console.log("user already exist")
                 }
                 else if(data.data.isValid){
-                  
+                  localStorage.clear()
                     localStorage.setItem('userID',data.data.id)
                     localStorage.setItem('token',data.data.token)
 

@@ -14,7 +14,9 @@ export default class Basic extends Component {
   
    state = {
     files: [],
-    name:'saeid'
+    name:'saeid',
+    family:'imani',
+    age:28
   };
 
   handleSubmit=(e)=>{
@@ -24,15 +26,29 @@ export default class Basic extends Component {
         'Content-Type':'multipart/form-data'
       }
     }
-    let fd=new FormData()
+    var fd=new FormData()
     this.state.files.map((file)=>{
       fd.append('file',file)
 
     })
+    let myData=this.state.name
+
+    fd.append('state',this.state)
+    fd.append('family',this.state.family)
+    fd.append('age',this.state.age)
+ 
     console.log('fd=',fd)
-    Axios.post(keys.backendUrl+'/api/users/getImages',this.state.name,fd,config)
-      .then((data)=>{
-      })
+    console.log('files=',this.state.files)
+
+     
+    // Axios.post(keys.backendUrl+'/api/users/getImages',{name:this.state.name}).then((data)=>{
+
+    // });
+    Axios.post(keys.backendUrl+'/api/users/getImages',fd,config)
+    .then((data)=>{
+      // image uploades     
+    })
+   
   }
   componentDidMount(){
 

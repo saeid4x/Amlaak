@@ -3,12 +3,10 @@ mongoose=require('mongoose'),
 Schema=mongoose.Schema;
 
 let ProvinceSchema=new Schema({    
-    0:{type:Object},
-    1:{type:Object},
-    2:{type:Object},
-  
-    
-   
+ 
+    provinceName:{type:String,default:null},
+    cities:{type:Array,default:null},
+    provinceID:{type:String,default:null}
 })
 
 module.exports=mongoose.model('province',ProvinceSchema);

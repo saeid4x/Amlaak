@@ -27,9 +27,12 @@ export default class extends Component{
         e.preventDefault();
         axios.post(keys.backendUrl+'/api/users/signin',this.state)
             .then((data)=>{
-                if(data){
-                    console.log(data.data.msg)
-                    console.log(data.data)
+                if(data.data.hasUser){
+                    // console.log(data.data.id)
+                    // console.log(data.data.token)
+                    localStorage.setItem('userID',data.data.id)
+                    localStorage.setItem('token',data.data.token)
+                    this.props.history.push('/dashboard')
                 }
             })
 

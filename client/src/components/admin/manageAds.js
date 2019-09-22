@@ -33,22 +33,30 @@ export default class extends Component{
         if(!userID || !token){
             this.props.history.push('/signin')
         }
-        if(userID || token){
+        if(userID && token){
             this.setState({
                 userID,token
             })
         }
-        //--- 
+
+
+      
+   
+
+       
 
   }
     componentDidMount(){
-            
-        // axios.get("http://127.0.0.1:8010/api/users/getAds/123")
-        //     .then((data)=>{
-        //         if(data){
-        //             console.log(data.data)
-        //         }
-        //     })
+        axios.get("http://127.0.0.1:8010/api/users/getAds/"+localStorage.getItem('userID'))
+        .then((data)=>{
+            if(data){
+                console.log(data.data)
+                this.setState({
+                    AdsData:data.data
+                })
+            }
+        })
+
        
         
 
@@ -67,6 +75,8 @@ export default class extends Component{
                 break
             case 'sell':
                 return "فروش"
+           default:
+                  return null
 
         }
 
@@ -85,6 +95,8 @@ export default class extends Component{
             case 'flat':
                 return 'زمین'
                 break;
+            default:
+                return null
 
         }
     }
@@ -117,23 +129,20 @@ export default class extends Component{
 
     handleDialogAccept=()=>{
         console.log('you accepted this dialog')
- axios.get(Keys.backendUrl+'/api/users/remove/'+this.state.tempID)
+        let config={
+            headers:{
+                token:localStorage.getItem('token')
+            }
+        }
+ axios.get(Keys.backendUrl+'/api/users/remove/'+this.state.tempID,config)
             .then((data)=>{
                 console.log(data.data)
                 if(data.data.remove){
-                    // this.setState({
-                    //     AdsData:this.state.AdsData.push() 
-                        
-                    // })
-                    // alert('removed')
+                
                     
                     window.location.reload();
                 }
-                    else if(!data.data.remove){
-                        alert('delete failed')
-
-                    }
-
+                   
                 });
  
 

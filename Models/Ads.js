@@ -13,7 +13,7 @@
         city:{type:String,default:null},
         address:{type:String,default:null},
         content:{type:String,default:null},
-        images:{type:String,default:null},  //must be array
+        images:{type:Array,default:null},  //must be array
         date:{type:String,default:null},
         time:{type:String,default:null},
         contactWay:{

@@ -59,6 +59,10 @@ export default function Header(props){
          )
         
     }
+    var handleSignout=(e)=>{
+      // alert('sign out ')
+      localStorage.clear()
+    }
   var  handleMenuClose=(e)=>{
          setAnchor(null)
         console.log(e.target)
@@ -93,6 +97,13 @@ export default function Header(props){
                          <span className="messageIcon">
                          <Tooltip title="پیام ها ">
                          <DeleteIcon></DeleteIcon>
+                         </Tooltip>
+                         </span>
+                     </Link>
+                     <Link >
+                         <span className="messageIcon">
+                         <Tooltip title=" خروج ">
+                         <DeleteIcon onClick={handleSignout}></DeleteIcon>
                          </Tooltip>
                          </span>
                      </Link>
