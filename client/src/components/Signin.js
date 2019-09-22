@@ -41,7 +41,7 @@ export default class extends Component{
 
       return  (
             <section className="signin">
-                <AdminLayout/>
+                <AdminLayout display="none"/>
                 <form onSubmit={this.handleSubmit}>
                 <section className="signin-content" style={{marginTop:80}}>
                     <Paper>

@@ -3,19 +3,19 @@
      direction: rtl
  }
  .left-sec{
-     border:1px solid red;
+     /* border:1px solid red; */
      margin-right:900px;
       
       
  }
  .left-sec-avatarInfo{
-     margin-right:30px;
+     margin-right:180px;
  }
  .messageIcon{
      margin-right:25px;
  }
  .avatar-sec{
-     border:1px solid red;
+     /* border:1px solid red; */
      height: 250px;
  }
  .avatar-sec img{

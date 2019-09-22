@@ -35,7 +35,7 @@ export default class extends Component{
             <section className="adminLayout">
 
                 <h3> </h3>
-                <Header  userInfo={username}/>
+                <Header  userInfo={username} display={this.props.display}/>
 
                 
                 <span></span>

@@ -1,1 +1,11 @@
 node_modules
+client/src/config
+client/src/Redux
+client/src/components/PG
+client/src/components/testComp
+client/src/components/testComp2
+client/src/components/testComp3
+client/src/components/PG
+public
+test
+tests

@@ -209,11 +209,11 @@ console.log('@100[this.state]',this.state)
         return(
 
             <section className="sendAds">
-<AdminLayout></AdminLayout>
+<AdminLayout/>
                 <div className="pageTitle">
-                    <Paper>
+                    <Paper style={{height:60}}>
                         <center>
-                        <h2>ارسال آگهی </h2>
+                        <h4>ارسال آگهی </h4>
                         </center>                   
                     </Paper>
                 </div>
@@ -515,7 +515,7 @@ console.log('@100[this.state]',this.state)
                                <div className="adsCategory">
                                 <Select  native 
                                       autoWidth='true'
-                                      style={{width:500}}                                       
+                                    //   style={{width:500}}                                       
                                       className="adsType-field"
                                       onChange={this.handleChanges('category')}
                                   >
@@ -526,7 +526,7 @@ console.log('@100[this.state]',this.state)
                                       <option value='flat'>زمین</option>                                       
                                   </Select>  
 
-                                       <span className="adsType-title">دسته بندی آگهی </span>
+                                       <span className="adsType-category">دسته بندی آگهی </span>
                                        </div>
 
                               </Grid>
@@ -536,7 +536,7 @@ console.log('@100[this.state]',this.state)
                                  <div className="adsType">
                                   <Select  native 
                                         autoWidth='true'
-                                        style={{width:500}}                                       
+                                        style={{marginRight:170}}                             
                                         className="adsType-field"
                                         onChange={this.handleChanges('type')}
                                         
@@ -660,11 +660,14 @@ console.log('@100[this.state]',this.state)
                             <Grid container sm={12}>  {/* 3|upload-img --> Grid.container  */}
 
                                 <Grid item sm={12}>
-                                    <h4>تصاویر ملک</h4>
+                                  <center> <h4>تصاویر ملک</h4>
+                                  <Divider/>
+                                  </center> 
                                 </Grid>
+                               
 
                                 <Grid item sm={12}>
-                                    <Dropzone onDrop={this.onDrop} >
+                                    <Dropzone onDrop={this.onDrop}>
                                         {({getRootProps, getInputProps}) => (
                                         <section className="container">
                                             <div {...getRootProps({className: 'dropzone'})}>

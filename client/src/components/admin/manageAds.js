@@ -7,6 +7,7 @@ import { Table ,Paper, TableHead,DialogTitle,Button,TableBody, TableRow,
          TableCell, Dialog, DialogActions,Slide,Snackbar,TablePagination
 
             } from '@material-ui/core';
+import "../../css/manageAdmin.css"
 
 import { mergeClasses, makeStyles } from '@material-ui/styles';
 export default class extends Component{
@@ -112,12 +113,7 @@ export default class extends Component{
        
            
     }
-    // setShowDialog=(show)=>{
-    //     this.setState({
-    //         openDialog:show
-
-    //     })
-    // }
+   
     handleDialogIgnore=()=>{
         console.log('you ignored this dialog');
        
@@ -181,7 +177,7 @@ export default class extends Component{
         return(
             <section className="manageAds">
                 <AdminLayout></AdminLayout>
-                <Paper style={{width:'82%',marginLeft:15}}>
+                <Paper style={{width:'82%',marginLeft:5,height:60}}>
                     <div>
                         <center>
                         <h2 >مدیریت آگهی </h2>
@@ -189,7 +185,7 @@ export default class extends Component{
                     </div>
 
                 </Paper>
-            <Paper style={{width:900,width:'83%',marginLeft:10}}>
+            <Paper style={{width:900,width:'82%',marginLeft:5,marginTop:15}}>
             
             <Table style={{border:'1px solid red',width:'100%',direction:'rtl'}} >
             <TableHead>

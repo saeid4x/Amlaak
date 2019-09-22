@@ -64,7 +64,7 @@ componentDidMount(){
        
         return(
             <section className="signup">
-                <AdminLayout/>
+                <AdminLayout display="none"/>
  
                 
                 <section className="signup-content" style={{marginTop:80}}>

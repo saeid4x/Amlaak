@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
+     
        
     },
     drawerPaper: {
@@ -62,6 +63,7 @@ export default function Header(props){
     var handleSignout=(e)=>{
       // alert('sign out ')
       localStorage.clear()
+      window.location.reload();
     }
   var  handleMenuClose=(e)=>{
          setAnchor(null)
@@ -80,13 +82,15 @@ export default function Header(props){
         return(
             <section className="_header">
              <AppBar color="primary" className={classes.appBar}>
-                 <Toolbar className="_header-toolbar"> 
-                      <h3 onClick={toggleDrawer(true)}>سایت املاک</h3>
-                      <DeleteIcon></DeleteIcon>
-{console.log(props.userinfo)}
+                 <Toolbar className="_header-toolbar">
+                 <DeleteIcon></DeleteIcon>
+                   <h3 onClick={toggleDrawer(true)}>سایت املاک</h3>
 
-                <section className="left-sec">
-                     <Link to=''>
+       
+                
+                <section className="left-sec"> 
+                 {/* === handle next version of amlaak === */}              
+                     {/* <Link to=''>
                          <span className="chat-icon">
                          <Tooltip title="چت">
                          <DeleteIcon></DeleteIcon>
@@ -106,13 +110,13 @@ export default function Header(props){
                          <DeleteIcon onClick={handleSignout}></DeleteIcon>
                          </Tooltip>
                          </span>
-                     </Link>
+                     </Link> */}
 
             
                      
                      </section>
                             {/* menu avatar */}
-                            <h3 onClick={ handleMenuClick} className="left-sec-avatarInfo"><InboxIcon/></h3>
+                            <h3 onClick={handleSignout} className="left-sec-avatarInfo"><InboxIcon/></h3>
 
 <Menu 
  anchorE1={anchor}
@@ -149,6 +153,8 @@ export default function Header(props){
 
             <div
                 onClick={ toggleDrawer(false)}
+                style={{display:`${props.display}`}}
+              
             >
               <Drawer
                 anchor='right'
@@ -157,8 +163,9 @@ export default function Header(props){
                 classes={{
                         paper: classes.drawerPaper,
                         }}
+                      
               >
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar}/>
          
           {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
@@ -167,9 +174,9 @@ export default function Header(props){
             </ListItem>
           ))}
         </List> */}
-        <section className="avatar-sec">
+        <section className="avatar-sec" >
 
-        <img src="/img/1.jpg" alt="" />
+        <img src="/img/1.PNG" alt="" />
         <p className="avatar-username"> 
           {props.userInfo}
          </p>

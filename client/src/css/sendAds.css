@@ -1,13 +1,11 @@
 .sendAds{
-    border:1px solid red;
-    width: 81%;
+     width: 81%;
     margin:80px 0 0 20px;
 
 }
 .pageTitle{
     width: 98%;
-    border:3px solid yellow;
-}
+ }
 .gridLayout{
     margin-top:30px;
 }
@@ -36,15 +34,28 @@
 .adsType-title{
     position: absolute;
     right:260px;
-    top:270px;
+    top:320px;
     font-size: 18px;
+    
 }
+ 
 .adsType-field{
     /* border:2px solid red; */
-    margin:10px 100px 0 0 
+    margin:10px 0 0 310px ;
+    /* border:2px solid red; */
+    width: 200px;
+    direction: rtl
+    
+}
+.adsType-category{
+    direction: rtl;
+    margin-right: -20px;
+}
+.adsCategory{
+    /* border:2px solid green */
 }
 .typeAds-content{
-    border:1px solid red;
+    /* border:1px solid red; */
     width: 90%;
     text-align: right;
     margin: 30px 0 0 25px;
@@ -105,7 +116,7 @@
 .address-title{      
      position: absolute;
      right:262px;
-     top:597px;
+     top:650px;
      font-size: 18px;
 
 
@@ -113,7 +124,7 @@
 .address-field{
   
     position: absolute;
-    top:30px;
+    top:40px;
     right:-50px;
     width: 500px;    
     
@@ -138,6 +149,7 @@
     background-color:red;
     height: 120px;
     margin-bottom: 10px;
+    margin-top:10px
 }
 .dropzone p {
     color:white;
@@ -146,3 +158,4 @@
     direction: rtl
 
 }
+ 

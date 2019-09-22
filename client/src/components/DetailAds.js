@@ -278,7 +278,7 @@ export default class extends Component{
              
 
             <section className="contentAds">
-                <Paper style={{padding:25,height:'100%',fontSize:20}}>
+                <Paper style={{padding:25,height:'100%',fontSize:20,width:'97%'}}>
                 <p> 
                 {adsData.content}
                 </p>
